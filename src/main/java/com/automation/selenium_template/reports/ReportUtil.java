@@ -1,9 +1,8 @@
 package com.automation.selenium_template.reports;
 
-public abstract class ReportUtil {
-
-	public abstract void log(ReportStatus reportStatus, String stepDescription, String message, String screenshotPath);
+public interface ReportUtil {
 	
-	public abstract void log(ReportStatus reportStatus, String stepDescription, String message, Exception exception, String screenShotPath);
+	public void report(ReportStatus reportStatus, String stepDescription, String message, String screenShotPath);
+	public void report(ReportStatus reportStatus, String stepDescription, String message, String screenShotPath, Exception e);
 	
 }
