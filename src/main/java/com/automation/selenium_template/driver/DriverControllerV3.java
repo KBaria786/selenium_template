@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,6 +25,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
+
+import com.automation.selenium_template.reports.ReportStatus;
+import com.automation.selenium_template.reports.ReportingUtil;
 
 public class DriverControllerV3 {
 	
@@ -68,11 +72,18 @@ public class DriverControllerV3 {
 		if(StringUtils.isNotBlank(url)) {
 			try {
 				webDriver.get(url);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully loaded url: {}", url);
+				//reporting
+				reportInfo(null, stepDescription, String.format("Successfully loaded url: %s", url), getScreenshot());
 			}catch (Exception e) {
-				log(Level.ERROR, stepDescription, "Exception occured while loading url", e);
+				//logging
+				log(Level.ERROR, stepDescription, String.format("Exception occured while loading url: %s", url), e);
+				//reporting
+				reportException(null, stepDescription, String.format("Exception occured while loading url: %s", url), e, null);
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank url: {}", url);
 		}
 		return false;
@@ -86,9 +97,15 @@ public class DriverControllerV3 {
 	public boolean close(String stepDescription) {
 		try {
 			webDriver.close();
+			//logging
 			log(Level.INFO, stepDescription, "Successfully closed current window");
+			//reporting
+			reportInfo(null, stepDescription, "Successfully closed current window", null);
 		}catch (Exception e) {
+			//logging
 			log(Level.ERROR, stepDescription, "Exception occured while closing current window", e);
+			//reporting
+			reportException(null, stepDescription, "Exception occured while closing current window", e, null);
 		}
 		return false;
 	}
@@ -101,9 +118,15 @@ public class DriverControllerV3 {
 	public boolean quit(String stepDescription) {
 		try {
 			webDriver.quit();
+			//logging
 			log(Level.INFO, stepDescription, "Successfully quit web driver");
+			//reporting
+			reportInfo(null, stepDescription, "Successfully quit web driver", null);
 		}catch (Exception e) {
+			//logging
 			log(Level.ERROR, stepDescription, "Exception occured while quitting web driver", e);
+			//reporting
+			reportException(null, stepDescription, "Exception occured while quitting web driver", e, null);
 		}
 		return false;
 	}
@@ -119,6 +142,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performClickOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 		}
 		return false;
@@ -135,6 +159,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performClickOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return false;
@@ -151,6 +176,7 @@ public class DriverControllerV3 {
 			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performClickOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 		}
 		return false;
@@ -166,10 +192,16 @@ public class DriverControllerV3 {
 		if(webElement != null) {
 			try {
 				webElement.click();
+				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
+				//reporting
+				reportInfo(null, stepDescription, "Successfully clicked web element", null);
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -186,6 +218,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performClickUsingActionsOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 		}
 		return false;
@@ -202,6 +235,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performClickUsingActionsOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return false;
@@ -218,6 +252,7 @@ public class DriverControllerV3 {
 			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performClickUsingActionsOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 		}
 		return false;
@@ -234,10 +269,16 @@ public class DriverControllerV3 {
 			try {
 				Actions actions = new Actions(webDriver);
 				actions.moveToElement(webElement).click().build().perform();
+				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
+				//reporting
+				reportInfo(null, stepDescription, "Successfully clicked web element", null);
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -254,6 +295,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performClickUsingJSExecutorOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 		}
 		return false;
@@ -270,6 +312,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performClickUsingJSExecutorOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return false;
@@ -286,6 +329,7 @@ public class DriverControllerV3 {
 //			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performClickUsingJSExecutorOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 		}
 		return false;
@@ -302,10 +346,16 @@ public class DriverControllerV3 {
 			try {
 				JavascriptExecutor javascriptExecutor = (JavascriptExecutor) webDriver;
 				javascriptExecutor.executeAsyncScript("arguments[0].click();", webElement);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
+				//reporting
+				reportInfo(null, stepDescription, "Successfully clicked web element", null);
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -323,6 +373,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performSendKeysOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
 		}
 		return false;
@@ -340,6 +391,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performSendKeysOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 		}
 		return false;
@@ -357,6 +409,7 @@ public class DriverControllerV3 {
 			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performSendKeysOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 		}
 		return false;
@@ -373,10 +426,16 @@ public class DriverControllerV3 {
 		if(webElement != null && StringUtils.isNotBlank(value)) {
 			try {
 				webElement.sendKeys(value);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
+				//reporting
+				reportInfo(null, stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while sending keys to web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -394,6 +453,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performClearAndSendKeysOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
 		}
 		return false;
@@ -411,6 +471,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performClearAndSendKeysOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 		}
 		return false;
@@ -428,6 +489,7 @@ public class DriverControllerV3 {
 			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performClearAndSendKeysOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 		}
 		return false;
@@ -445,10 +507,16 @@ public class DriverControllerV3 {
 			try {
 				webElement.clear();
 				webElement.sendKeys(value);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
+				//reporting
+				reportInfo(null, stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while sending keys to web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -466,6 +534,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performSelectByVisibleTextOperation(stepDescription, webElement, visibleText);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, visibleText: {}", locatorString, visibleText);
 		}
 		return false;
@@ -483,6 +552,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performSelectByVisibleTextOperation(stepDescription, webElement, visibleText);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, visibleText: {}", by, visibleText);
 		}
 		return false;
@@ -500,6 +570,7 @@ public class DriverControllerV3 {
 			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performSelectByVisibleTextOperation(stepDescription, webElement, visibleText);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, visibleText: {}", webElement, visibleText);
 		}
 		return false;
@@ -517,10 +588,16 @@ public class DriverControllerV3 {
 			try {
 				Select select = new Select(webElement);
 				select.selectByVisibleText(visibleText);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by visible text on web element", visibleText, webElement);
+				//reporting
+				reportInfo(null, stepDescription, String.format("Successfully selected option: %s by visible text on web element", visibleText), null);
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while selecting option by visible text", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while selecting option by visible text", e, getScreenshot());
 			}
 		}
 		return false;
@@ -538,6 +615,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performSelectByValueOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
 		}
 		return false;
@@ -555,6 +633,7 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performSelectByValueOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 		}
 		return false;
@@ -572,6 +651,7 @@ public class DriverControllerV3 {
 			webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
 			return performSelectByValueOperation(stepDescription, webElement, value);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 		}
 		return false;
@@ -589,17 +669,29 @@ public class DriverControllerV3 {
 			try {
 				Select select = new Select(webElement);
 				select.selectByValue(value);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by value on web element", value, webElement);
+				//reporting
+				reportInfo(null, stepDescription, String.format("Successfully selected option: %s by value on web element", value), getScreenshot());
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while selecting option by value", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occured while selecting option by value", e, getScreenshot());
 			}
 		}
 		return false;
 	}
 	
-	//
-	public boolean dragAndDrop(String stepDescription, String sourceLocatorString, String targetLocatorString, String value) {
+	/**
+	 * Method to drag and drop a web element which is visible and within the viewport.
+	 * @param stepDescription short step description
+	 * @param sourceLocatorString the string to find the source web element with
+	 * @param targetLocatorString the string to find the target web element with
+	 * @return true if operation is successful otherwise false
+	 */
+	public boolean dragAndDrop(String stepDescription, String sourceLocatorString, String targetLocatorString) {
 		if(StringUtils.isNotBlank(sourceLocatorString) && StringUtils.isNotBlank(targetLocatorString)) {
 			WebElement sourceWebElement = waitForVisibilityOfElement(stepDescription, sourceLocatorString, defaultExplicitWaitDuration);
 			WebElement targetWebElement = waitForVisibilityOfElement(stepDescription, targetLocatorString, defaultExplicitWaitDuration);
@@ -610,7 +702,14 @@ public class DriverControllerV3 {
 		return false;
 	}
 	
-	public boolean dragAndDrop(String stepDescription, By sourceBy, By targetBy, String value) {
+	/**
+	 * Method to drag and drop a web element which is visible and within the viewport.
+	 * @param stepDescription short step description
+	 * @param sourceBy the locator to find the source web element with
+	 * @param targetBy the locator to find the target web element with
+	 * @return true if operation is successful otherwise false
+	 */
+	public boolean dragAndDrop(String stepDescription, By sourceBy, By targetBy) {
 		if(sourceBy != null && targetBy != null) {
 			WebElement sourceWebElement = waitForVisibilityOfElement(stepDescription, sourceBy, defaultExplicitWaitDuration);
 			WebElement targetWebElement = waitForVisibilityOfElement(stepDescription, targetBy, defaultExplicitWaitDuration);
@@ -621,7 +720,14 @@ public class DriverControllerV3 {
 		return false;
 	}
 	
-	public boolean dragAndDrop(String stepDescription, WebElement sourceWebElement, WebElement targetWebElement, String value) {
+	/**
+	 * Method to drag and drop a web element which is visible and within the viewport.
+	 * @param stepDescription short step description
+	 * @param sourceWebElement the web element to drag and drop
+	 * @param targetWebElement the web element to drag and drop the given 'sourceWebElement' to
+	 * @return true if operation is successful otherwise false
+	 */
+	public boolean dragAndDrop(String stepDescription, WebElement sourceWebElement, WebElement targetWebElement) {
 		if(sourceWebElement != null && targetWebElement != null) {
 			sourceWebElement = waitForVisibilityOfElement(stepDescription, sourceWebElement, defaultExplicitWaitDuration);
 			targetWebElement = waitForVisibilityOfElement(stepDescription, targetWebElement, defaultExplicitWaitDuration);
@@ -632,6 +738,13 @@ public class DriverControllerV3 {
 		return false;
 	}
 	
+	/**
+	 * Method to drag and drop a web element which is visible and within the viewport.
+	 * @param stepDescription short step description
+	 * @param sourceWebElement the web element to drag and drop
+	 * @param targetWebElement the web element to drag and drop the given 'sourceWebElement' to
+	 * @return true if operation is successful otherwise false
+	 */
 	private boolean performDragAndDropOperation(String stepDescription, WebElement sourceWebElement, WebElement targetWebElement) {
 		if(sourceWebElement != null && targetWebElement != null) {
 			try {
@@ -646,7 +759,13 @@ public class DriverControllerV3 {
 		return false;
 	}
 	
-	//
+	/**
+	 * Get the value of the given attribute of the element which is present on the DOM.
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @return The attribute/property's current value or null if the value is not set
+	 */
 	public String getAttribute(String stepDescription, String locatorString, String attribute) {
 		if(StringUtils.isNotBlank(locatorString) && StringUtils.isNotBlank(attribute)) {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
@@ -657,6 +776,13 @@ public class DriverControllerV3 {
 		return null;
 	}
 	
+	/**
+	 * Get the value of the given attribute of the element which is present on the DOM.
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @return The attribute/property's current value or null if the value is not set
+	 */
 	public String getAttribute(String stepDescription, By by, String attribute) {
 		if(by != null && StringUtils.isNotBlank(attribute)) {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, by, defaultExplicitWaitDuration);
@@ -667,6 +793,13 @@ public class DriverControllerV3 {
 		return null;
 	}
 	
+	/**
+	 * Get the value of the given attribute of the element which is present on the DOM.
+	 * @param stepDescription short step description
+	 * @param webElement the web element to get the attribute of
+	 * @param attribute attribute name of the web element
+	 * @return The attribute/property's current value or null if the value is not set
+	 */
 	public String getAttribute(String stepDescription, WebElement webElement, String attribute) {
 		if(webElement != null && StringUtils.isNotBlank(attribute)) {
 			return performGetAttributeOperation(stepDescription, webElement, attribute);
@@ -676,6 +809,13 @@ public class DriverControllerV3 {
 		return null;
 	}
 	
+	/**
+	 * Get the value of the given attribute of the element which is present on the DOM.
+	 * @param stepDescription short step description
+	 * @param webElement the web element to get the attribute of
+	 * @param attribute attribute name of the web element
+	 * @return The attribute/property's current value or null if the value is not set
+	 */
 	private String performGetAttributeOperation(String stepDescription, WebElement webElement, String attribute) {
 		if(webElement != null && StringUtils.isNotBlank(attribute)) {
 			try {
@@ -689,7 +829,11 @@ public class DriverControllerV3 {
 		return null;
 	}
 	
-	//
+	/**
+	 * Return an opaque handle to this window that uniquely identifies it within this driver instance.This can be used to switch to this window at a later date 
+	 * @param stepDescription short step description
+	 * @return The current window handle
+	 */
 	public String getWindowHandle(String stepDescription) {
 		try {
 			String windowHandle = webDriver.getWindowHandle();
@@ -703,7 +847,11 @@ public class DriverControllerV3 {
 		}
 	}
 	
-	//
+	/**
+	 * Return a set of window handles which can be used to iterate over all open windows.
+	 * @param stepDescription short step description
+	 * @return A set of window handles which can be used to iterate over all open windows
+	 */
 	public Set<String> getWindowHandles(String stepDescription) {
 		try {
 			Set<String> windowHandles = webDriver.getWindowHandles();
@@ -717,7 +865,11 @@ public class DriverControllerV3 {
 		}
 	}
 	
-	//
+	/**
+	 * Get the title of the current page. 
+	 * @param stepDescription short step description
+	 * @return The title of the current page, with leading and trailing whitespace stripped, or null if one is not already set
+	 */
 	public String getTitle(String stepDescription) {
 		try {
 			String title = webDriver.getTitle();
@@ -731,7 +883,11 @@ public class DriverControllerV3 {
 		}
 	}
 	
-	//
+	/**
+	 * Get a string representing the current URL that the browser is looking at.
+	 * @param stepDescription short step description
+	 * @return The URL of the page currently loaded in the browser
+	 */
 	public String getCurrentUrl(String stepDescription) {
 		try {
 			String url = webDriver.getCurrentUrl();
@@ -745,7 +901,12 @@ public class DriverControllerV3 {
 		}
 	}
 	
-	//
+	/**
+     * Switch the focus of future commands for this driver to the window with the given name/handle.
+     * @param stepDescription short step description
+     * @param windowHandle The name or the window handle
+     * @return true if the driver is focused on the new window otherwise false
+     */
 	public boolean switchToWindow(String stepDescription, String windowHandle) {
 		if(StringUtils.isNotBlank(windowHandle)) {
 			try {
@@ -763,7 +924,15 @@ public class DriverControllerV3 {
 		return false;
 	}
 	
-	//
+	/**
+     * Creates a new browser window and switches the focus for future commands of this driver to the
+     * new window.
+     * @param stepDescription short step description
+     * @param windowType The type of new browser window to be created. The created window is not
+     *     guaranteed to be of the requested type; if the driver does not support the requested
+     *     type, a new browser window will be created of whatever type the driver does support.
+     * @return true if the driver is focused on the given window otherwise false
+     */
 	public boolean switchToNewWindow(String stepDescription, WindowType windowType) {
 		if(windowType != null) {
 			try {
@@ -781,68 +950,107 @@ public class DriverControllerV3 {
 		return false;
 	}
 	
-	//
-	public Alert switchToAlert(String stepDescription) {
+	
+	// alert
+	
+	public boolean isAlertPresent(String stepDescription) {
 		try {
 			WebDriverWait wait = new WebDriverWait(webDriver, defaultExplicitWaitDuration);
 			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-			//logging and reporting
-			log(Level.INFO, stepDescription, "Successfully switched to alert: {}", alert);
-			return alert;
+			//logging
+			log(Level.INFO, stepDescription, "Successfully found alert: {}", alert);
+			return alert != null;
 		}catch(Exception e) {
-			//logging and reporting
-			log(Level.ERROR, stepDescription, "Exception while switching to alert", e);
+			//logging
+			log(Level.ERROR, stepDescription, "Exception while finding alert", e);
 		}
-		return null;
+		return false;
+	}
+	
+	//
+	public boolean switchToAlert(String stepDescription) {
+		if(isAlertPresent(stepDescription)) {
+			try {
+				webDriver.switchTo().alert();
+				//logging
+				log(Level.INFO, stepDescription, "Successfully switched to alert");
+				return true;
+			}catch(Exception e) {
+				//logging
+				log(Level.ERROR, stepDescription, "Exception while switching to alert", e);
+			}
+		}else {
+			//logging
+			log(Level.ERROR, stepDescription, "Alert not found");
+		}
+		return false;
 	}
 	
 	public boolean sendKeysToAlert(String stepDescription, String value) {
-		if(StringUtils.isNotBlank(value)) {
-			try {
-				Alert alert = switchToAlert(stepDescription);
-				alert.sendKeys(value);
-				//logging and reporting
-				log(Level.INFO, stepDescription, "Successfully sent keys: {} to alert: {}", value, alert);
-				return true;
-			}catch(Exception e) {
-				//logging and reporting
-				log(Level.ERROR, stepDescription, "Exception while sending keys to alert", e);
+		if(isAlertPresent(stepDescription)) {
+			if(StringUtils.isNotBlank(value)) {
+				try {
+					Alert alert = webDriver.switchTo().alert();
+					alert.sendKeys(value);
+					//logging
+					log(Level.INFO, stepDescription, "Successfully sent keys: {} to alert", value);
+					return true;
+				}catch(Exception e) {
+					//logging
+					log(Level.ERROR, stepDescription, "Exception while sending keys to alert", e);
+				}
+			}else {
+				//logging
+				log(Level.ERROR, stepDescription, "Blank value: {}", value);
 			}
 		}else {
-			log(Level.ERROR, stepDescription, "Blank value: {}", value);
+			//logging
+			log(Level.ERROR, stepDescription, "Alert not present");
 		}
 		return false;
 	}
 	
 	public boolean acceptAlert(String stepDescription) {
-		try {
-			Alert alert = switchToAlert(stepDescription);
-			alert.accept();
-			//logging and reporting
-			log(Level.INFO, stepDescription, "Successfully accepted alert");
-			return true;
-		}catch(Exception e) {
-			//logging and reporting
-			log(Level.ERROR, stepDescription, "Exception while accepting for alert", e);
+		if(isAlertPresent(stepDescription)) {
+			try {
+				Alert alert = webDriver.switchTo().alert();
+				alert.accept();
+				//logging
+				log(Level.INFO, stepDescription, "Successfully accepted alert");
+				return true;
+			}catch(Exception e) {
+				//logging
+				log(Level.ERROR, stepDescription, "Exception while accepting alert", e);
+			}
+		}else {
+			//logging
+			log(Level.ERROR, stepDescription, "Alert not present");
 		}
 		return false;
 	}
 	
 	public boolean dismissAlert(String stepDescription) {
-		try {
-			Alert alert = switchToAlert(stepDescription);
-			alert.dismiss();
-			//logging and reporting
-			log(Level.INFO, stepDescription, "Successfully dismissed alert");
-			return true;
-		}catch(Exception e) {
-			//logging and reporting
-			log(Level.ERROR, stepDescription, "Exception while dismissing for alert", e);
+		if(isAlertPresent(stepDescription)) {
+			try {
+				Alert alert = webDriver.switchTo().alert();
+				alert.dismiss();
+				//logging
+				log(Level.INFO, stepDescription, "Successfully dismissed alert");
+				return true;
+			}catch(Exception e) {
+				//logging
+				log(Level.ERROR, stepDescription, "Exception while dismissing for alert", e);
+			}
+		}else {
+			//logging
+			log(Level.ERROR, stepDescription, "Alert not present");
 		}
 		return false;
 	}
 	
-	//
+	
+	//frame
+	
 	public boolean switchToIFrameByIndex(String stepDescription, int index) {
 		if(index > 0) {
 			try {
@@ -930,6 +1138,10 @@ public class DriverControllerV3 {
 	
 	// explicit waits
 	
+	public boolean isElementPresent(String stepDescription, String locatorString, Duration duration) {
+		return waitForPresenceOfElement(stepDescription, locatorString, duration) != null;
+	}
+	
 	public WebElement waitForPresenceOfElement(String stepDescription, String locatorString, Duration duration) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			List<By> locators = getLocators(locatorString);
@@ -988,10 +1200,13 @@ public class DriverControllerV3 {
 			if(webElementOptional.isPresent()) {
 				return webElementOptional.get();
 			}else {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "No visible element found by locator string: {}", locatorString);
+				//reporting
+				report(ReportStatus.ERROR, stepDescription, String.format("No visible element found by locator string: %s}", locatorString), getScreenshot());
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 		}
 		return null;
@@ -1003,10 +1218,11 @@ public class DriverControllerV3 {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration);
 				return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element {}", e);
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return null;
@@ -1018,10 +1234,13 @@ public class DriverControllerV3 {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
 				return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occurred while waiting for visibility of element", e, getScreenshot());
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return null;
@@ -1033,10 +1252,13 @@ public class DriverControllerV3 {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
 				return wait.until(ExpectedConditions.visibilityOf(webElement));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
+				//reporting
+				reportException(null, stepDescription, "Exception occurred while waiting for invisibility of element", e, getScreenshot());
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 		}
 		return null;
@@ -1048,11 +1270,15 @@ public class DriverControllerV3 {
 					.filter(locator -> tryWaitForInvisibilityOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration))
 					.findFirst();
 			if(locatorOptional.isEmpty()) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "No invisible element found by locator string: {}", locatorString);
+				//reporting
+				String message = String.format("No invisible element found by locator string: %s", locatorString);
+				reportException(ReportStatus.ERROR, stepDescription, message, new NoSuchElementException(message), getScreenshot());
 			}
 			return locatorOptional.isPresent();
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 		}
 		return false;
@@ -1064,10 +1290,11 @@ public class DriverControllerV3 {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration);
 				return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element {}", e);
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return false;
@@ -1079,8 +1306,9 @@ public class DriverControllerV3 {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
 				return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
+				//reporting
 			}
 		}else {
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
@@ -1278,6 +1506,7 @@ public class DriverControllerV3 {
 			}catch(Exception e) {
 				//logging and reporting
 				log(Level.ERROR, null, "Exception occurred while finding web element", e);
+				reportException(null, null, "Exception occurred while finding web element", e, getScreenshot());
 			}
 		}else {
 			log(Level.ERROR, null, "Null locator: {}", by);
@@ -1502,4 +1731,32 @@ public class DriverControllerV3 {
 		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
 		logger.atLevel(level).log(message, arguments);
 	}
+	
+	private void report(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
+		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
+		if(screenshotFile != null) {
+			ReportingUtil.logInfo(message, screenshotFile);
+		}else {
+			ReportingUtil.logInfo(message);
+		}
+	}
+	
+	private void reportInfo(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
+		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
+		if(screenshotFile != null) {
+			ReportingUtil.logInfo(message, screenshotFile);
+		}else {
+			ReportingUtil.logInfo(message);
+		}
+	}
+	
+	private void reportException(ReportStatus reportStatus, String stepDescription, String message, Exception e, File screenshotFile) {
+		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
+		if(screenshotFile != null) {
+			ReportingUtil.logException(message, e, screenshotFile);
+		}else {
+			ReportingUtil.logException(message, e);
+		}
+	}
+	
 }
