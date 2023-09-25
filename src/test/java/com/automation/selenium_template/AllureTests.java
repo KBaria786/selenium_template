@@ -12,7 +12,9 @@ import com.automation.selenium_template.reports.ReportingUtil;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Allure;
+import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Status;
+import io.qameta.allure.model.StepResult;
 
 public class AllureTests {
 
@@ -31,6 +33,17 @@ public class AllureTests {
 		});
 		
 		Allure.step("Step 5", Status.SKIPPED);
+		
+		StepResult step6 = new StepResult();
+		step6.setName("step6");
+		AllureLifecycle allure = Allure.getLifecycle();
+		
+		allure.startStep(step6.getName(), step6);
+		allure.updateStep(step -> {
+			step.setStatus(Status.FAILED);
+			Allure.addAttachment("life cycle", "life cycle");
+		});
+		allure.stopStep(step6.getName());
 		
 		Allure.step("Test over", () -> {
 			Allure.step("Exception occured", () -> {throw e;});

@@ -2,20 +2,19 @@
 <testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2023-09-20T17:19:50 IST" name="Default suite" finished-at="2023-09-20T17:20:06 IST" duration-ms="15403">
+  <suite started-at="2023-09-22T17:34:23 IST" name="Default suite" finished-at="2023-09-22T17:34:23 IST" duration-ms="203">
     <groups>
     </groups>
-    <test started-at="2023-09-20T17:19:50 IST" name="Default test" finished-at="2023-09-20T17:20:06 IST" duration-ms="15403">
+    <test started-at="2023-09-22T17:34:23 IST" name="Default test" finished-at="2023-09-22T17:34:23 IST" duration-ms="203">
       <class name="com.automation.selenium_template.AllureTests">
-        <test-method signature="driverControllerTest()[pri:0, instance:com.automation.selenium_template.AllureTests@173373b4]" started-at="2023-09-20T17:19:51 IST" name="driverControllerTest" finished-at="2023-09-20T17:20:06 IST" duration-ms="15098" status="FAIL">
-          <exception class="java.util.NoSuchElementException">
+        <test-method signature="sampleTest()[pri:0, instance:com.automation.selenium_template.AllureTests@c81fd12]" started-at="2023-09-22T17:34:23 IST" name="sampleTest" description="sample test" finished-at="2023-09-22T17:34:23 IST" duration-ms="78" status="FAIL">
+          <exception class="java.lang.RuntimeException">
             <message>
-              <![CDATA[No invisible element found by locator string: name~q]]>
+              <![CDATA[Some exception]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.util.NoSuchElementException: No invisible element found by locator string: name~q
-at com.automation.selenium_template.driver.DriverControllerV3.waitForInvisibilityOfElement(DriverControllerV3.java:1092)
-at com.automation.selenium_template.AllureTests.driverControllerTest(AllureTests.java:47)
+              <![CDATA[java.lang.RuntimeException: Some exception
+at com.automation.selenium_template.AllureTests.sampleTest(AllureTests.java:23)
 at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
@@ -44,10 +43,10 @@ at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 ]]>
             </full-stacktrace>
-          </exception> <!-- java.util.NoSuchElementException -->
+          </exception> <!-- java.lang.RuntimeException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- driverControllerTest -->
+        </test-method> <!-- sampleTest -->
       </class> <!-- com.automation.selenium_template.AllureTests -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
