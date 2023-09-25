@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,8 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
@@ -29,13 +26,13 @@ import org.slf4j.event.Level;
 import com.automation.selenium_template.reports.ReportStatus;
 import com.automation.selenium_template.reports.ReportingUtil;
 
-public class DriverControllerV3 {
+public class DriverControllerV4 {
 	
 	private WebDriver webDriver;
 	private Duration defaultExplicitWaitDuration;
 	private static Logger logger = LoggerFactory.getLogger(DriverController.class);
 	
-	public DriverControllerV3(WebDriver webDriver) {
+	public DriverControllerV4(WebDriver webDriver) {
 		super();
 		this.webDriver = webDriver;
 	}
@@ -75,16 +72,18 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully loaded url: {}", url);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully loaded url: %s", url), getScreenshot());
+				
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occured while loading url: %s", url), e);
 				//reporting
-				reportException(null, stepDescription, String.format("Exception occured while loading url: %s", url), e, null);
+				
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank url: {}", url);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -100,12 +99,12 @@ public class DriverControllerV3 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully closed current window");
 			//reporting
-			reportInfo(null, stepDescription, "Successfully closed current window", null);
+			
 		}catch (Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception occured while closing current window", e);
 			//reporting
-			reportException(null, stepDescription, "Exception occured while closing current window", e, null);
+			
 		}
 		return false;
 	}
@@ -121,12 +120,12 @@ public class DriverControllerV3 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully quit web driver");
 			//reporting
-			reportInfo(null, stepDescription, "Successfully quit web driver", null);
+			
 		}catch (Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception occured while quitting web driver", e);
 			//reporting
-			reportException(null, stepDescription, "Exception occured while quitting web driver", e, null);
+			
 		}
 		return false;
 	}
@@ -144,6 +143,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -161,6 +162,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -178,6 +181,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -195,13 +200,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				reportInfo(null, stepDescription, "Successfully clicked web element", null);
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -220,6 +225,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -237,6 +244,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -254,6 +263,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -272,13 +283,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				reportInfo(null, stepDescription, "Successfully clicked web element", null);
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -297,6 +308,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -314,6 +327,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -331,6 +346,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -349,13 +366,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				reportInfo(null, stepDescription, "Successfully clicked web element", null);
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -375,6 +392,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -393,6 +412,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -411,6 +432,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -429,13 +452,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while sending keys to web element", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -455,6 +478,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -473,6 +498,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -491,6 +518,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -510,13 +539,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while sending keys to web element", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -536,6 +565,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, visibleText: {}", locatorString, visibleText);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -554,6 +585,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, visibleText: {}", by, visibleText);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -572,6 +605,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, visibleText: {}", webElement, visibleText);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -591,13 +626,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by visible text on web element", visibleText, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully selected option: %s by visible text on web element", visibleText), null);
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while selecting option by visible text", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while selecting option by visible text", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -617,6 +652,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -635,6 +672,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -653,6 +692,8 @@ public class DriverControllerV3 {
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -672,13 +713,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by value on web element", value, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully selected option: %s by value on web element", value), getScreenshot());
+				
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while selecting option by value", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while selecting option by value", e, getScreenshot());
+				
 			}
 		}
 		return false;
@@ -697,7 +738,10 @@ public class DriverControllerV3 {
 			WebElement targetWebElement = waitForVisibilityOfElement(stepDescription, targetLocatorString, defaultExplicitWaitDuration);
 			return performDragAndDropOperation(stepDescription, sourceWebElement, targetWebElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. sourceLocatorString: {}, targetLocatorString: {}", sourceLocatorString, targetLocatorString);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -715,7 +759,10 @@ public class DriverControllerV3 {
 			WebElement targetWebElement = waitForVisibilityOfElement(stepDescription, targetBy, defaultExplicitWaitDuration);
 			return performDragAndDropOperation(stepDescription, sourceWebElement, targetWebElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null. sourceBy: {}, targetBy: {}", sourceBy, targetBy);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -733,7 +780,10 @@ public class DriverControllerV3 {
 			targetWebElement = waitForVisibilityOfElement(stepDescription, targetWebElement, defaultExplicitWaitDuration);
 			return performDragAndDropOperation(stepDescription, sourceWebElement, targetWebElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null. sourceWebElement: {}, targetWebElement: {}", sourceWebElement, targetWebElement);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -750,10 +800,16 @@ public class DriverControllerV3 {
 			try {
 				Actions actions = new Actions(webDriver);
 				actions.moveToElement(sourceWebElement).clickAndHold().moveToElement(targetWebElement).release().build().perform();
+				//logging
 				log(Level.INFO, stepDescription, "Successfully dragged and dropped web element: {}", sourceWebElement);
+				//reporting
+				
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while dragging and dropping element", e);
+				//reporting
+				
 			}
 		}
 		return false;
@@ -771,7 +827,10 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performGetAttributeOperation(stepDescription, webElement, attribute);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}", locatorString, attribute);
+			//reporting
+			
 		}
 		return null;
 	}
@@ -788,7 +847,10 @@ public class DriverControllerV3 {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performGetAttributeOperation(stepDescription, webElement, attribute);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}", by, attribute);
+			//reporting
+			
 		}
 		return null;
 	}
@@ -804,7 +866,10 @@ public class DriverControllerV3 {
 		if(webElement != null && StringUtils.isNotBlank(attribute)) {
 			return performGetAttributeOperation(stepDescription, webElement, attribute);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}", webElement, attribute);
+			//reporting
+			
 		}
 		return null;
 	}
@@ -820,10 +885,16 @@ public class DriverControllerV3 {
 		if(webElement != null && StringUtils.isNotBlank(attribute)) {
 			try {
 				String value = webElement.getAttribute(attribute);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully got attribute: {} of web element", attribute, webElement);
+				//reporting
+				
 				return value;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while getting attribute of web element", e);
+				//reporting
+				
 			}
 		}
 		return null;
@@ -837,12 +908,16 @@ public class DriverControllerV3 {
 	public String getWindowHandle(String stepDescription) {
 		try {
 			String windowHandle = webDriver.getWindowHandle();
-			//logging and reporting
+			//logging
 			log(Level.INFO, stepDescription, "Successfully got window handle: {}", windowHandle);
+			//reporting
+			
 			return windowHandle;
 		}catch(Exception e) {
-			//logging and reporting
+			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting window handle", e);
+			//reporting
+			
 			return null;
 		}
 	}
@@ -855,12 +930,16 @@ public class DriverControllerV3 {
 	public Set<String> getWindowHandles(String stepDescription) {
 		try {
 			Set<String> windowHandles = webDriver.getWindowHandles();
-			//logging and reporting
+			//logging
 			log(Level.INFO, stepDescription, "Successfully got window handles");
+			//reporting
+			
 			return windowHandles;
 		}catch(Exception e) {
-			//logging and reporting
+			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting window handles", e);
+			//reporting
+			
 			return Set.of();
 		}
 	}
@@ -873,12 +952,16 @@ public class DriverControllerV3 {
 	public String getTitle(String stepDescription) {
 		try {
 			String title = webDriver.getTitle();
-			//logging and reporting
+			//logging
 			log(Level.INFO, stepDescription, "Successfully got title: {}", title);
+			//reporting
+			
 			return title;
 		}catch(Exception e) {
-			//logging and reporting
+			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting title", e);
+			//reporting
+			
 			return null;
 		}
 	}
@@ -891,12 +974,16 @@ public class DriverControllerV3 {
 	public String getCurrentUrl(String stepDescription) {
 		try {
 			String url = webDriver.getCurrentUrl();
-			//logging and reporting
+			//logging
 			log(Level.INFO, stepDescription, "Successfully got current page url: {}", url);
+			//reporting
+			
 			return url;
 		}catch(Exception e) {
-			//logging and reporting
+			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting current page url", e);
+			//reporting
+			
 			return null;
 		}
 	}
@@ -911,15 +998,22 @@ public class DriverControllerV3 {
 		if(StringUtils.isNotBlank(windowHandle)) {
 			try {
 				webDriver.switchTo().window(windowHandle);
-				//logging and reporting
+				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to window");
+				//reporting
+				
 				return true;
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to window", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank window handle: {}", windowHandle);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -937,15 +1031,22 @@ public class DriverControllerV3 {
 		if(windowType != null) {
 			try {
 				webDriver.switchTo().newWindow(windowType);
-				//logging and reporting
+				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to new window");
+				//reporting
+				
 				return true;
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to new window", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null window type: {}", windowType);
+			//reporting
+			
 		}
 		return false;
 	}
@@ -953,39 +1054,64 @@ public class DriverControllerV3 {
 	
 	// alert
 	
+	/**
+	 * Get alert if present.
+	 * @param stepDescription short step description
+	 * @return true if alert is present otherwise false
+	 */
 	public boolean isAlertPresent(String stepDescription) {
 		try {
 			WebDriverWait wait = new WebDriverWait(webDriver, defaultExplicitWaitDuration);
 			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			//logging
 			log(Level.INFO, stepDescription, "Successfully found alert: {}", alert);
+			//reporting
+			
 			return alert != null;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while finding alert", e);
+			//reporting
+			
 		}
 		return false;
 	}
 	
-	//
+	/**
+	 * Switches to the currently active modal dialog for this particular driver instance.
+	 * @param stepDescription short step description
+	 * @return true if web driver successfully switches to the alert otherwise false
+	 */
 	public boolean switchToAlert(String stepDescription) {
 		if(isAlertPresent(stepDescription)) {
 			try {
 				webDriver.switchTo().alert();
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to alert");
+				//reporting
+				
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to alert", e);
+				//reporting
+				
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not found");
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Method to send keys to the alert.
+	 * @param stepDescription short step description
+	 * @param value keys to send to the alert
+	 * @return true if operation was successful otherwise false
+	 */
 	public boolean sendKeysToAlert(String stepDescription, String value) {
 		if(isAlertPresent(stepDescription)) {
 			if(StringUtils.isNotBlank(value)) {
@@ -994,22 +1120,35 @@ public class DriverControllerV3 {
 					alert.sendKeys(value);
 					//logging
 					log(Level.INFO, stepDescription, "Successfully sent keys: {} to alert", value);
+					//reporting
+					
 					return true;
 				}catch(Exception e) {
 					//logging
 					log(Level.ERROR, stepDescription, "Exception while sending keys to alert", e);
+					//reporting
+					
 				}
 			}else {
 				//logging
 				log(Level.ERROR, stepDescription, "Blank value: {}", value);
+				//reporting
+				
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Method to accept alert.
+	 * @param stepDescription short step description
+	 * @return true if operation was successful otherwise false
+	 */
 	public boolean acceptAlert(String stepDescription) {
 		if(isAlertPresent(stepDescription)) {
 			try {
@@ -1017,18 +1156,29 @@ public class DriverControllerV3 {
 				alert.accept();
 				//logging
 				log(Level.INFO, stepDescription, "Successfully accepted alert");
+				//reporting
+				
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while accepting alert", e);
+				//reporting
+				
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Method to dismiss alert.
+	 * @param stepDescription short step description
+	 * @return true if operation was successful otherwise false
+	 */
 	public boolean dismissAlert(String stepDescription) {
 		if(isAlertPresent(stepDescription)) {
 			try {
@@ -1036,14 +1186,20 @@ public class DriverControllerV3 {
 				alert.dismiss();
 				//logging
 				log(Level.INFO, stepDescription, "Successfully dismissed alert");
+				//reporting
+				
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while dismissing for alert", e);
+				//reporting
+				
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
+			//reporting
+			
 		}
 		return false;
 	}
@@ -1051,150 +1207,330 @@ public class DriverControllerV3 {
 	
 	//frame
 	
+	/**
+	 * Select a frame by its (zero-based) index. Once the frame has been selected, all subsequent calls on the WebDriver interface are made to that frame. 
+	 * @param stepDescription short step description
+	 * @param index (zero-based) index
+	 * @return true if driver is focused on the given frame otherwise false
+	 */
 	public boolean switchToIFrameByIndex(String stepDescription, int index) {
 		if(index > 0) {
 			try {
 				webDriver.switchTo().frame(index);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to iframe with index: {}", index);
+				//reporting
+				
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while switching to iframe", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Invalid index: {}", index);
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Select a frame by its name or ID. Frames located by matching name attributes are always given precedence over those matched by ID.
+	 * @param stepDescription
+	 * @param nameOrId the name of the frame window, the id of the frame or frame element, or the (zero-based) index
+	 * @return true if driver is focused on the given frame otherwise false
+	 */
 	public boolean switchToIFrameByNameOrId(String stepDescription, String nameOrId) {
 		if(StringUtils.isNotBlank(nameOrId)) {
 			try {
 				webDriver.switchTo().frame(nameOrId);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to iframe with name or id: {}", nameOrId);
+				//reporting
+				
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while switching to iframe", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank name of id: {}", nameOrId);
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Select a frame using the locator to find the web element. 
+	 * @param stepDescription short step description
+	 * @param webElement The frame element to switch to
+	 * @return true if the driver is focused on the given frame otherwise false
+	 */
 	public boolean switchToIFrame(String stepDescription, String locatorString) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
 			return performSwitchToIFrameOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Select a frame using the locator to find the web element. 
+	 * @param stepDescription short step description
+	 * @param by The frame element locator to switch to
+	 * @return true if the driver is focused on the given frame otherwise false
+	 */
 	public boolean switchToIFrame(String stepDescription, By by) {
 		if(by != null) {
 			WebElement webElement = waitForPresenceOfElement(stepDescription, by, defaultExplicitWaitDuration);
 			return performSwitchToIFrameOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Select a frame using the located web element. 
+	 * @param stepDescription short step description
+	 * @param webElement The frame element to switch to
+	 * @return true of the driver is focused on the given frame otherwise false
+	 */
 	public boolean switchToIFrame(String stepDescription, WebElement webElement) {
 		if(webElement != null) {
 			return performSwitchToIFrameOperation(stepDescription, webElement);
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+			//reporting
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * Select a frame using the located web element. 
+	 * @param stepDescription short step description
+	 * @param webElement The frame element to switch to
+	 * @return true if the driver is focused on the given frame otherwise false
+	 */
 	private boolean performSwitchToIFrameOperation(String stepDescription, WebElement webElement) {
 		if(webElement != null) {
 			try {
 				webDriver.switchTo().frame(webElement);
+				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to iframe: {}", webElement);
+				//reporting
+				
 				return true;
 			}catch (Exception e) {
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while switcing to iframe", e);
+				//reporting
+				
 			}
 		}
 		return false;
 	}
 	
-	//
+	/**
+	 * Selects either the first frame on the page, or the main document when a page contains iframes. 
+	 * @param stepDescription short step description
+	 * @return true if driver is focused on the top window/first frame otherwise false
+	 */
 	public boolean switchToDefaultContent(String stepDescription) {
 		try {
 			webDriver.switchTo().defaultContent();
+			//logging
 			log(Level.INFO, stepDescription, "Successfully switched to default content");
+			//reporting
+			
 			return true;
 		}catch (Exception e) {
+			//logging
 			log(Level.ERROR, stepDescription, "Exception occurred while switching to default content", e);
+			//reporting
+			
 		}
 		return false;
 	}
 	
-	
 	// explicit waits
 	
-	public boolean isElementPresent(String stepDescription, String locatorString, Duration duration) {
-		return waitForPresenceOfElement(stepDescription, locatorString, duration) != null;
+	// presence
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located
+	 */
+	public WebElement isElementPresent(String stepDescription, String locatorString, Duration duration) {
+		return waitForPresenceOfElement(stepDescription, locatorString, duration, false);
 	}
 	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
+	 * <p>This method generates report if the element is not present on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located
+	 */
 	public WebElement waitForPresenceOfElement(String stepDescription, String locatorString, Duration duration) {
+		return waitForPresenceOfElement(stepDescription, locatorString, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
+	 * <p>This method generates report if the element is not present on the DOM based on the value of 'generateReport'</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param duration the duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return the web element once it is located
+	 */
+	private WebElement waitForPresenceOfElement(String stepDescription, String locatorString, Duration duration, boolean generateReport) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			List<By> locators = getLocators(locatorString);
 			Optional<WebElement> webElementOptional = locators.stream()
-					.map(locator -> tryToWaitForPresenceOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration))
+					.map(locator -> waitForPresenceOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration, false))
 					.filter(webElement -> webElement != null)
 					.findFirst();
 			if(webElementOptional.isPresent()) {
 				return webElementOptional.get();
 			}else {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "No element present by locator string: {}", locatorString);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString, duration);
-		}
-		return null;
-	}
-	
-	private WebElement tryToWaitForPresenceOfElement(String stepDescription, By by, Duration duration) {
-		if(by != null && duration != null) {
-			try {
-				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
-				return wait.until(ExpectedConditions.presenceOfElementLocated(by));
-			}catch(Exception e) {
-				//logging and reporting
-				log(Level.ERROR, stepDescription, "Exception occured while waiting for presence of element {}", e);
+			//reporting
+			if(generateReport) {
+				
 			}
-		}else {
-			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return null;
 	}
 	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located
+	 */
+	public WebElement isElementPresent(String stepDescription, By by, Duration duration) {
+		return waitForPresenceOfElement(stepDescription, by, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
+	 * <p>This method generates report if the element is not present on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located
+	 */
 	public WebElement waitForPresenceOfElement(String stepDescription, By by, Duration duration) {
+		return waitForPresenceOfElement(stepDescription, by, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
+	 * <p>This method generates report if the element is not present on the DOM based on the value of 'generateReport'</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param duration the duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return the web element once it is located
+	 */
+	private WebElement waitForPresenceOfElement(String stepDescription, By by, Duration duration, boolean generateReport) {
 		if(by != null) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
 				return wait.until(ExpectedConditions.presenceOfElementLocated(by));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while waiting for presence of element", e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by, duration);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return null;
 	}
 	
+	// visibility
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page and visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located and visible
+	 */
+	public WebElement isElementVisible(String stepDescription, String locatorString, Duration duration) {
+		return waitForVisibilityOfElement(stepDescription, locatorString, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page and visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * <p>This method generates report if the element is not visible on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located and visible
+	 */
 	public WebElement waitForVisibilityOfElement(String stepDescription, String locatorString, Duration duration) {
+		return waitForVisibilityOfElement(stepDescription, locatorString, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page and visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * <p>This method generates report if the element is not visible on the DOM based on the value of 'generateReport'</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the element with
+	 * @param duration the duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return the web element once it is located and visible
+	 */
+	private WebElement waitForVisibilityOfElement(String stepDescription, String locatorString, Duration duration, boolean generateReport) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			Optional<WebElement> webElementOptional = getLocators(locatorString).stream()
-					.map(locator -> tryWaitForVisibilityOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration))
+					.map(locator -> waitForVisibilityOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration, false))
 					.filter(webElement -> webElement != null)
 					.findFirst();
 			if(webElementOptional.isPresent()) {
@@ -1203,32 +1539,57 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "No visible element found by locator string: {}", locatorString);
 				//reporting
-				report(ReportStatus.ERROR, stepDescription, String.format("No visible element found by locator string: %s}", locatorString), getScreenshot());
+				if(generateReport) {
+					
+				}
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
-		}
-		return null;
-	}
-	
-	private WebElement tryWaitForVisibilityOfElement(String stepDescription, By by, Duration duration) {
-		if(by != null) {
-			try {
-				WebDriverWait wait = new WebDriverWait(webDriver, duration);
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-			}catch(Exception e) {
-				//logging
-				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element {}", e);
+			//reporting
+			if(generateReport) {
+				
 			}
-		}else {
-			//logging
-			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return null;
 	}
 	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page and visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * @param stepDescription short step description
+	 * @param by the locator to find the element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located and visible
+	 */
+	public WebElement isElementVisible(String stepDescription, By by, Duration duration) {
+		return waitForVisibilityOfElement(stepDescription, by, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page and visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * <p>This method generates report if the element is not visible on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the element with
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located and visible
+	 */
 	public WebElement waitForVisibilityOfElement(String stepDescription, By by, Duration duration) {
+		return waitForVisibilityOfElement(stepDescription, by, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page and visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * <p>This method generates report if the element is not visible on the DOM based on the value of 'generateReport'</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the element with
+	 * @param duration the duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return the web element once it is located and visible
+	 */
+	private WebElement waitForVisibilityOfElement(String stepDescription, By by, Duration duration, boolean generateReport) {
 		if(by != null) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
@@ -1237,16 +1598,57 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occurred while waiting for visibility of element", e, getScreenshot());
+				if(generateReport) {
+					
+				}
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return null;
 	}
 	
+	/**
+	 * An expectation for checking that an element, known to be present on the DOM of a page, is visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check visibility of
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located and visible
+	 */
+	public WebElement isElementVisible(String stepDescription, WebElement webElement, Duration duration) {
+		return waitForVisibilityOfElement(stepDescription, webElement, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element, known to be present on the DOM of a page, is visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * <p>This method generates report if the element is not visible on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check visibility of
+	 * @param duration the duration to wait for
+	 * @return the web element once it is located and visible
+	 */
 	public WebElement waitForVisibilityOfElement(String stepDescription, WebElement webElement, Duration duration) {
+		return waitForVisibilityOfElement(stepDescription, webElement, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element, known to be present on the DOM of a page, is visible.
+	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
+	 * <p>This method generates report if the element is not visible on the DOM based on the value of 'generateReport'</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check visibility of
+	 * @param duration the duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return the web element once it is located and visible
+	 */
+	private WebElement waitForVisibilityOfElement(String stepDescription, WebElement webElement, Duration duration, boolean generateReport) {
 		if(webElement != null) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
@@ -1255,52 +1657,113 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occurred while waiting for invisibility of element", e, getScreenshot());
+				if(generateReport) {
+					
+				}
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return null;
 	}
 	
+	// invisibility
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * @param stepDescription short step description
+	 * @param locatorString string to find the web element with
+	 * @param duration duration to wait for
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
+	public boolean isElementInvisible(String stepDescription, String locatorString, Duration duration) {
+		return waitForInvisibilityOfElement(stepDescription, locatorString, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * <p>This method generates report if the element is visible on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString string to find the web element with
+	 * @param duration duration to wait for
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
 	public boolean waitForInvisibilityOfElement(String stepDescription, String locatorString, Duration duration) {
+		return waitForInvisibilityOfElement(stepDescription, locatorString, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * <p>This method generates report if the element is visible on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString string to find the web element with
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
+	private boolean waitForInvisibilityOfElement(String stepDescription, String locatorString, Duration duration, boolean generateReport) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			Optional<By> locatorOptional = getLocators(locatorString).stream()
-					.filter(locator -> tryWaitForInvisibilityOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration))
+					.filter(locator -> waitForInvisibilityOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration, false))
 					.findFirst();
 			if(locatorOptional.isEmpty()) {
 				//logging
 				log(Level.ERROR, stepDescription, "No invisible element found by locator string: {}", locatorString);
 				//reporting
-				String message = String.format("No invisible element found by locator string: %s", locatorString);
-				reportException(ReportStatus.ERROR, stepDescription, message, new NoSuchElementException(message), getScreenshot());
+				if(generateReport) {
+					
+				}
 			}
 			return locatorOptional.isPresent();
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
-		}
-		return false;
-	}
-	
-	private boolean tryWaitForInvisibilityOfElement(String stepDescription, By by, Duration duration) {
-		if(by != null) {
-			try {
-				WebDriverWait wait = new WebDriverWait(webDriver, duration);
-				return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
-			}catch(Exception e) {
-				//logging
-				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element {}", e);
+			//reporting
+			if(generateReport) {
+				
 			}
-		}else {
-			//logging
-			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 		}
 		return false;
 	}
 	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * @param stepDescription short step description
+	 * @param by locator to find the web element with
+	 * @param duration duration to wait for
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
+	public boolean isElementInvisible(String stepDescription, By by, Duration duration) {
+		return waitForInvisibilityOfElement(stepDescription, by, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * <p>This method generates report if the element is visible on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param by locator to find the web element with
+	 * @param duration duration to wait for
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
 	public boolean waitForInvisibilityOfElement(String stepDescription, By by, Duration duration) {
+		return waitForInvisibilityOfElement(stepDescription, by, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * <p>This method generates report if the element is visible on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param by locator to find the web element with
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
+	private boolean waitForInvisibilityOfElement(String stepDescription, By by, Duration duration, boolean generateReport) {
 		if(by != null) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
@@ -1309,116 +1772,190 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
 				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return false;
 	}
 	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check invisibility of
+	 * @param duration duration to wait for
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
+	public boolean isElementInvisible(String stepDescription, WebElement webElement, Duration duration) {
+		return waitForInvisibilityOfElement(stepDescription, webElement, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * <p>This method generates report if the element is visible on the DOM.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check invisibility of
+	 * @param duration duration to wait for
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
 	public boolean waitForInvisibilityOfElement(String stepDescription, WebElement webElement, Duration duration) {
+		return waitForInvisibilityOfElement(stepDescription, webElement, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking that an element is either invisible or not present on the DOM.
+	 * <p>This method generates report if the element is visible on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check invisibility of
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true if the element is not displayed or the element doesn't exist or stale element
+	 */
+	private boolean waitForInvisibilityOfElement(String stepDescription, WebElement webElement, Duration duration, boolean generateReport) {
 		if(webElement != null) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
 				return wait.until(ExpectedConditions.invisibilityOf(webElement));
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return false;
 	}
 	
+	// attribute to be
+	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	public boolean isElementAttributeEqualTo(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
+		return waitForAttributeToBe(stepDescription, locatorString, attribute, value, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not equal to the given 'value'.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
 	public boolean waitForAttributeToBe(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
+		return waitForAttributeToBe(stepDescription, locatorString, attribute, value, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not equal to the given 'value' based on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	private boolean waitForAttributeToBe(String stepDescription, String locatorString, String attribute, String value, Duration duration, boolean generateReport) {
 		if(StringUtils.isNotBlank(locatorString) && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
 			try {
 				Optional<By> locatorOptional = getLocators(locatorString).stream()
-						.filter(locator -> tryToWaitForAttributeToBe(stepDescription, locator, attribute, value, duration != null ? duration : defaultExplicitWaitDuration))
+						.filter(locator -> waitForAttributeToBe(stepDescription, locator, attribute, value, duration != null ? duration : defaultExplicitWaitDuration, false))
 						.findFirst();
 				if(locatorOptional.isPresent()) {
-					//logging and reporting
+					//logging
 					log(Level.ERROR, stepDescription, "No element found with {} = {} by locator string: {}", attribute, value, locatorString);
 				}
 				locatorOptional.isPresent();
 			}catch (Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}, value: {}", locatorString, attribute, value);
-		}
-		return false;
-	}
-	
-	private boolean tryToWaitForAttributeToBe(String stepDescription, By by, String attribute, String value, Duration duration) {
-		if(by != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
-			try {
-				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
-				return wait.until(ExpectedConditions.attributeToBe(by, attribute, value));
-			}catch (Exception e) {
-				//logging and reporting
-				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
+			//reporting
+			if(generateReport) {
+				
 			}
-		}else {
-			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}, value: {}", by, attribute, value);
 		}
 		return false;
 	}
 	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	public boolean isElementAttributeEqualTo(String stepDescription, By by, String attribute, String value, Duration duration) {
+		return waitForAttributeToBe(stepDescription, by, attribute, value, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not equal to the given 'value'.</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
 	public boolean waitForAttributeToBe(String stepDescription, By by, String attribute, String value, Duration duration) {
-		if(by != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
-			try {
-				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
-				return wait.until(ExpectedConditions.attributeToBe(by, attribute, value));
-			}catch (Exception e) {
-				//logging and reporting
-				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
-			}
-		}else {
-			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}, value: {}", by, attribute, value);
-		}
-		return false;
-	}
-
-	public boolean waitForAttributeToBe(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
-		if(webElement != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
-			try {
-				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
-				return wait.until(ExpectedConditions.attributeToBe(webElement, attribute, value));
-			}catch (Exception e) {
-				//logging and reporting
-				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
-			}
-		}else {
-			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}, value: {}", webElement, attribute, value);
-		}
-		return false;
+		return waitForAttributeToBe(stepDescription, by, attribute, value, duration, true);
 	}
 	
-	public boolean waitForAttributeToContain(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
-		if(StringUtils.isNotBlank(locatorString) && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
-			try {
-				Optional<By> locatorOptional = getLocators(locatorString).stream()
-						.filter(locator -> tryToWaitForAttributeToContain(stepDescription, locator, attribute, value, duration != null ? duration : defaultExplicitWaitDuration))
-						.findFirst();
-				if(locatorOptional.isPresent()) {
-					//logging and reporting
-					log(Level.ERROR, stepDescription, "No element found with {} = {} by locator string: {}", attribute, value, locatorString);
-				}
-				locatorOptional.isPresent();
-			}catch (Exception e) {
-				//logging and reporting
-				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
-			}
-		}else {
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}, value: {}", locatorString, attribute, value);
-		}
-		return false;
-	}
-	
-	private boolean tryToWaitForAttributeToContain(String stepDescription, By by, String attribute, String value, Duration duration) {
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not equal to the given 'value' based on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	private boolean waitForAttributeToBe(String stepDescription, By by, String attribute, String value, Duration duration, boolean generateReport) {
 		if(by != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
@@ -1426,29 +1963,263 @@ public class DriverControllerV3 {
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}, value: {}", by, attribute, value);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return false;
 	}
 	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check attribute of
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	public boolean isElementAttributeEqualTo(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
+		return waitForAttributeToBe(stepDescription, webElement, attribute, value, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not equal to the given 'value'.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check attribute of
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	public boolean waitForAttributeToBe(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
+		return waitForAttributeToBe(stepDescription, webElement, attribute, value, duration, true);
+	}
+
+	/**
+	 * An expectation for checking given WebElement has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not equal to the given 'value' based on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check attribute of
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute with the value
+	 */
+	private boolean waitForAttributeToBe(String stepDescription, WebElement webElement, String attribute, String value, Duration duration, boolean generateReport) {
+		if(webElement != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
+			try {
+				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
+				return wait.until(ExpectedConditions.attributeToBe(webElement, attribute, value));
+			}catch (Exception e) {
+				//logging
+				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
+				//reporting
+				if(generateReport) {
+					
+				}
+			}
+		}else {
+			//logging
+			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}, value: {}", webElement, attribute, value);
+			//reporting
+			if(generateReport) {
+				
+			}
+		}
+		return false;
+	}
+	
+	// attribute to contain
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	public boolean doesElementAttributeContain(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
+		return waitForAttributeToContain(stepDescription, locatorString, attribute, value, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not contain the given 'value'.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	public boolean waitForAttributeToContain(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
+		return waitForAttributeToContain(stepDescription, locatorString, attribute, value, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not contain the given 'value' based on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param locatorString the string to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	private boolean waitForAttributeToContain(String stepDescription, String locatorString, String attribute, String value, Duration duration, boolean generateReport) {
+		if(StringUtils.isNotBlank(locatorString) && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
+			try {
+				Optional<By> locatorOptional = getLocators(locatorString).stream()
+						.filter(locator -> waitForAttributeToContain(stepDescription, locator, attribute, value, duration != null ? duration : defaultExplicitWaitDuration, false))
+						.findFirst();
+				if(locatorOptional.isPresent()) {
+					//logging
+					log(Level.ERROR, stepDescription, "No element found with {} = {} by locator string: {}", attribute, value, locatorString);
+				}
+				locatorOptional.isPresent();
+			}catch (Exception e) {
+				//logging
+				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
+				//reporting
+				if(generateReport) {
+					
+				}
+			}
+		}else {
+			//logging
+			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}, value: {}", locatorString, attribute, value);
+			//reporting
+			if(generateReport) {
+				
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	public boolean doesElementAttributeContain(String stepDescription, By by, String attribute, String value, Duration duration) {
+		return waitForAttributeToContain(stepDescription, by, attribute, value, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not contain the given 'value'.</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
 	public boolean waitForAttributeToContain(String stepDescription, By by, String attribute, String value, Duration duration) {
+		return waitForAttributeToContain(stepDescription, by, attribute, value, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not contain the given 'value' based on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param by the locator to find the web element with
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	private boolean waitForAttributeToContain(String stepDescription, By by, String attribute, String value, Duration duration, boolean generateReport) {
 		if(by != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
 				return wait.until(ExpectedConditions.attributeToBe(by, attribute, value));
 			}catch (Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}, value: {}", by, attribute, value);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return false;
 	}
 	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check attribute of
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	public boolean doesElementAttributeContain(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
+		return waitForAttributeToContain(stepDescription, webElement, attribute, value, duration, false);
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not contain the given 'value'.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check attribute of
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
 	public boolean waitForAttributeToContain(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
+		return waitForAttributeToContain(stepDescription, webElement, attribute, value, duration, true);
+	}
+	
+	/**
+	 * An expectation for checking WebElement with given locator has attribute with a specific value.
+	 * <p>This method generates report if the element attribute does not contain the given 'value' based on the DOM based on the value of 'generateReport'.</p>
+	 * @param stepDescription short step description
+	 * @param webElement the web element to check attribute of
+	 * @param attribute attribute name of the web element
+	 * @param value value to be present
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return true when element has css or html attribute which contains the value
+	 */
+	private boolean waitForAttributeToContain(String stepDescription, WebElement webElement, String attribute, String value, Duration duration, boolean generateReport) {
 		if(webElement != null && StringUtils.isNotBlank(attribute) && StringUtils.isNotBlank(value)) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
@@ -1456,14 +2227,33 @@ public class DriverControllerV3 {
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to contain {}", attribute, value), e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}, value: {}", webElement, attribute, value);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return false;
 	}
 	
-	public <T> T waitForCustomCondition(String stepDescription, ExpectedCondition<T> expectedCondition, Duration duration) {
+	// custom condition
+	
+	/**
+	 * Method to apply an explicit wait on a custom expected condition.
+	 * @param <T> return type of the given 'expectedCondition'
+	 * @param stepDescription short step description
+	 * @param expectedCondition custom condition to perform explicit wait upon
+	 * @param duration duration to wait for
+	 * @param generateReport boolean value to determine if reports will be generated or not
+	 * @return return value of the given 'expectedCondition'
+	 */
+	public <T> T waitForCustomCondition(String stepDescription, ExpectedCondition<T> expectedCondition, Duration duration, boolean generateReport) {
 		if(expectedCondition != null) {
 			try {
 				WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
@@ -1471,34 +2261,79 @@ public class DriverControllerV3 {
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for custom expected condition", e);
+				//reporting
+				if(generateReport) {
+					
+				}
 			}
 		}else {
+			//logging
 			log(Level.ERROR, stepDescription, "Null custom expected condition: {}", expectedCondition);
+			//reporting
+			if(generateReport) {
+				
+			}
 		}
 		return null;
 	}
-
-	// find elements
 	
+	
+	// find element
+	
+	/**
+	 * Find the first WebElement using the given method.
+	 * @param locatorString the string to find the web element with
+	 * @return The first matching element on the current page
+	 */
 	public WebElement findElement(String locatorString) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			List<By> locators = getLocators(locatorString);
 			Optional<WebElement> webElementOptional = locators.stream()
-					.map(locator -> findElement(locator))
+					.map(locator -> tryFindingElement(locator))
 					.filter(webElement -> webElement != null)
 					.findFirst();
 			if(webElementOptional.isPresent()) {
 				return webElementOptional.get();
 			}else {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "No web element found with locator string: {}", locatorString);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
+			//reporting
+			
 		}
 		return null;
 	}
 	
+	/**
+	 * Find the first WebElement using the given method.
+	 * @param by the locator to find the web element with
+	 * @return The first matching element on the current page
+	 */
+	private WebElement tryFindingElement(By by) {
+		if(by != null) {
+			try {
+				return webDriver.findElement(by);
+			}catch(Exception e) {
+				//logging
+				log(Level.ERROR, null, "Exception occurred while finding web element", e);
+			}
+		}else {
+			//logging
+			log(Level.ERROR, null, "Null locator: {}", by);
+		}
+		return null;
+	}
+	
+	/**
+	 * Find the first WebElement using the given method.
+	 * @param by the locator to find the web element with
+	 * @return The first matching element on the current page
+	 */
 	public WebElement findElement(By by) {
 		if(by != null) {
 			try {
@@ -1507,15 +2342,22 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while finding web element", e);
 				//reporting
+				
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "Null locator: {}", by);
 			//reporting
+			
 		}
 		return null;
 	}
 	
+	/**
+	 * Find all elements within the current page using the given 'locatorString' locator.
+	 * @param locatorString the string to find the web element with
+	 * @return A list of all matching WebElements, or an empty list if nothing matches
+	 */
 	public List<WebElement> findElements(String locatorString) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			List<By> locators = getLocators(locatorString);
@@ -1526,76 +2368,146 @@ public class DriverControllerV3 {
 			if(webElementListOptional.isPresent()) {
 				return webElementListOptional.get();
 			}else {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "No web elements found with locator string: {}", locatorString);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
+			//reporting
+			
 		}
 		return List.of();
 	}
 	
+	/**
+	 * Find all elements within the current page using the given 'by' locator.
+	 * @param by the locator to find the web element with
+	 * @return A list of all matching WebElements, or an empty list if nothing matches
+	 */
 	private List<WebElement> tryFindingWebElements(By by) {
 		if(by != null) {
 			try {
 				return webDriver.findElements(by);
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Exception occurred while finding web elements with locator", e);
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "Null locator {}", by);
 		}
 		return List.of();
 	}
 	
+	/**
+	 * Find all elements within the current page using the given 'by' locator.
+	 * @param by the locator to find the web element with
+	 * @return A list of all matching WebElements, or an empty list if nothing matches
+	 */
 	public List<WebElement> findElements(By by) {
 		if(by != null) {
 			try {
 				return webDriver.findElements(by);
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Exception occurred while finding web elements with locator", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "Null locator {}", by);
+			//reporting
+			
 		}
 		return List.of();
 	}
 	
+	/**
+	 * Find the first child web element of the given 'parentWebElement' web element using the given 'locatorString' string.
+	 * @param parentWebElement parent web element from which to locate the child web element
+	 * @param locatorString string to find the child web element with
+	 * @return The first matching element on the current page
+	 */
 	public WebElement findChildWebElement(WebElement parentWebElement, String locatorString) {
 		if(parentWebElement != null && StringUtils.isNotBlank(locatorString)) {
 			List<By> locators = getLocators(locatorString);
 			Optional<WebElement> webElementOptional = locators.stream()
-					.map(locator -> findChildWebElement(parentWebElement, locator))
+					.map(locator -> tryFindingChildWebElement(parentWebElement, locator))
 					.filter(webElement -> webElement != null)
 					.findFirst();
 			if(webElementOptional.isPresent()) {
 				return webElementOptional.get();
 			}else {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "No child web element found with locator string: {}", locatorString);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null or blank. parentWebElement: {}, locatorString: {}", parentWebElement, locatorString);
+			//reporting
+			
 		}
 		return null;
 	}
 	
-	public WebElement findChildWebElement(WebElement parentWebElement, By by) {
+	/**
+	 * Find the first child web element of the given 'parentWebElement' web element using the given 'by' locator
+	 * @param parentWebElement parent web element from which to locate the child web element
+	 * @param by locator to find the child web element with
+	 * @return The first matching element on the current page
+	 */
+	private WebElement tryFindingChildWebElement(WebElement parentWebElement, By by) {
 		if(parentWebElement != null && by != null) {
 			try {
 				return parentWebElement.findElement(by);
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null. parentWebElement: {}, by: {}", parentWebElement, by);
 		}
 		return null;
 	}
 	
+	/**
+	 * Find the first child web element of the given 'parentWebElement' web element using the given 'by' locator
+	 * @param parentWebElement parent web element from which to locate the child web element
+	 * @param by locator to find the child web element with
+	 * @return The first matching element on the current page
+	 */
+	public WebElement findChildWebElement(WebElement parentWebElement, By by) {
+		if(parentWebElement != null && by != null) {
+			try {
+				return parentWebElement.findElement(by);
+			}catch(Exception e) {
+				//logging
+				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
+				//reporting
+				
+			}
+		}else {
+			//logging
+			log(Level.ERROR, null, "One or more of the required fields is null. parentWebElement: {}, by: {}", parentWebElement, by);
+			//reporting
+			
+		}
+		return null;
+	}
+	
+	/**
+	 * Find list of child web elements of the given 'parentWebElement' web element using the given 'by' locator
+	 * @param parentWebElement parent web element from which to locate the child web element
+	 * @param by locator to find the child web element with
+	 * @return The first matching element on the current page
+	 */
 	public List<WebElement> findChildWebElements(WebElement parentWebElement, String locatorString) {
 		if(parentWebElement != null && StringUtils.isNotBlank(locatorString)) {
 			List<By> locators = getLocators(locatorString);
@@ -1606,53 +2518,76 @@ public class DriverControllerV3 {
 			if(webElementListOptional.isPresent()) {
 				return webElementListOptional.get();
 			}else {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "No child web elements found with locator string: {}", locatorString);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null or blank. parentWebElement: {}, locatorString: {}", parentWebElement, locatorString);
+			//reporting
+			
 		}
 		return List.of();
 	}
 	
+	/**
+	 * Find list of child web elements of the given 'parentWebElement' web element using the given 'by' locator
+	 * @param parentWebElement parent web element from which to locate the child web element
+	 * @param by locator to find the child web element with
+	 * @return The first matching element on the current page
+	 */
 	private List<WebElement> tryFindingChildWebElements(WebElement parentWebElement, By by) {
 		if(parentWebElement != null && by != null) {
 			try {
 				return parentWebElement.findElements(by);
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null. parentWebElement: {}, by: {}", parentWebElement, by);
 		}
 		return List.of();
 	}
 	
+	/**
+	 * Find list of child web elements of the given 'parentWebElement' web element using the given 'by' locator
+	 * @param parentWebElement parent web element from which to locate the child web element
+	 * @param by locator to find the child web element with
+	 * @return The first matching element on the current page
+	 */
 	public List<WebElement> findChildWebElements(WebElement parentWebElement, By by) {
 		if(parentWebElement != null && by != null) {
 			try {
 				return parentWebElement.findElements(by);
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null. parentWebElement: {}, by: {}", parentWebElement, by);
+			//reporting
+			
 		}
 		return List.of();
 	}
 	
 	
-	// screenshot
+	// locator pairs
 	
-	public File getScreenshot() {
-		return ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
-	}
-	
-	
-	// locator string
-	
+	/**
+	 * Get list of locators from the given 'locatorString' string where each locator key and value pair is separated by ';'.
+	 * <p>Example : {@code xpath~//div[@class='some-class'];xpath~//div[@id='some-id']}</p>
+	 * @param locatorString string containing locator key and value pairs
+	 * @return list of locators extracted from the given 'locatorString' string
+	 */
 	private List<By> getLocators(String locatorString) {
 		if(StringUtils.isNotBlank(locatorString)) {
 			List<String> locatorPairStrings = Arrays.asList(locatorString.split(";"));
@@ -1665,16 +2600,27 @@ public class DriverControllerV3 {
 					.filter(locator -> locator != null)
 					.toList();
 			if(locators.isEmpty()) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "No locators found with locator string: {}", locatorString);
+				//reporting
+				
 			}
 			return locators;
 		}else {
+			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
-			return List.of();
+			//reporting
+			
 		}
+		return List.of();
 	}
 	
+	/**
+	 * Method to convert the locator key and value into a {@link By} locator
+	 * @param locatorKey locator key string
+	 * @param locatorValue locator value string
+	 * @return valid locator based on the locator key otherwise null
+	 */
 	private By getLocator(String locatorKey, String locatorValue) {
 		if(StringUtils.isNotBlank(locatorKey) && StringUtils.isNotBlank(locatorValue)) {
 			By byLocator = null;
@@ -1704,44 +2650,57 @@ public class DriverControllerV3 {
 				byLocator = By.linkText(locatorValue);
 				break;
 			default:
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Invalid locator key: {}", locatorKey);
+				//reporting
+				
 				break;
 			}
 			return byLocator;
 		}else {
+			//logging
 			log(Level.ERROR, null, "One or more required fields is blank. locatorKey: {}, locatorValue: {}", locatorKey, locatorValue);
+			//reporting
+			
 			return null;
 		}
 	}
 	
+	/**
+	 * Method to extract the locator key and value separated by '~'.
+	 * <p>Example : {@code xpath~//div[@class='some-class']}</p>
+	 * @param locatorPairString string containing the locator key and value separated by '~'
+	 * @return list of string containing the locator key and value
+	 */
 	private List<String> extractLocatorPair(String locatorPairString) {
 		if(StringUtils.isNotBlank(locatorPairString)) {
 			try {
 				return List.of(locatorPairString.split("~")[0], locatorPairString.split("~")[1]);
 			}catch(Exception e) {
-				//logging and reporting
+				//logging
 				log(Level.ERROR, null, "Exception occurred while extracting locator pair", e);
+				//reporting
+				
 			}
 		}else {
+			//logging
 			log(Level.ERROR, null, "Blank locator pair string: {}", locatorPairString);
+			//reporting
+			
 		}
 		return List.of();
 	}
+	
+	
+	// logging
 	
 	private void log(Level level, String stepDescription, String message, Object... arguments) {
 		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
 		logger.atLevel(level).log(message, arguments);
 	}
 	
-	private void report(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		if(screenshotFile != null) {
-			ReportingUtil.logInfo(message, screenshotFile);
-		}else {
-			ReportingUtil.logInfo(message);
-		}
-	}
+	
+	// reporting
 	
 	private void reportInfo(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
 		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
