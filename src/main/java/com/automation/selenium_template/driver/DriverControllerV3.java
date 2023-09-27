@@ -26,9 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-import com.automation.selenium_template.reports.ReportStatus;
-import com.automation.selenium_template.reports.ReportingUtil;
-
 public class DriverControllerV3 {
 	
 	private WebDriver webDriver;
@@ -75,12 +72,12 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully loaded url: {}", url);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully loaded url: %s", url), getScreenshot());
+
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occured while loading url: %s", url), e);
 				//reporting
-				reportException(null, stepDescription, String.format("Exception occured while loading url: %s", url), e, null);
+
 			}
 		}else {
 			//logging
@@ -100,12 +97,12 @@ public class DriverControllerV3 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully closed current window");
 			//reporting
-			reportInfo(null, stepDescription, "Successfully closed current window", null);
+
 		}catch (Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception occured while closing current window", e);
 			//reporting
-			reportException(null, stepDescription, "Exception occured while closing current window", e, null);
+
 		}
 		return false;
 	}
@@ -121,12 +118,10 @@ public class DriverControllerV3 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully quit web driver");
 			//reporting
-			reportInfo(null, stepDescription, "Successfully quit web driver", null);
 		}catch (Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception occured while quitting web driver", e);
 			//reporting
-			reportException(null, stepDescription, "Exception occured while quitting web driver", e, null);
 		}
 		return false;
 	}
@@ -195,13 +190,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				reportInfo(null, stepDescription, "Successfully clicked web element", null);
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -272,13 +267,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				reportInfo(null, stepDescription, "Successfully clicked web element", null);
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -349,13 +344,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				reportInfo(null, stepDescription, "Successfully clicked web element", null);
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while clicking web element", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -429,13 +424,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while sending keys to web element", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -510,13 +505,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while sending keys to web element", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -591,13 +586,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by visible text on web element", visibleText, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully selected option: %s by visible text on web element", visibleText), null);
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while selecting option by visible text", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while selecting option by visible text", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -672,13 +667,13 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by value on web element", value, webElement);
 				//reporting
-				reportInfo(null, stepDescription, String.format("Successfully selected option: %s by value on web element", value), getScreenshot());
+
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occured while selecting option by value", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occured while selecting option by value", e, getScreenshot());
+
 			}
 		}
 		return false;
@@ -1203,7 +1198,7 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "No visible element found by locator string: {}", locatorString);
 				//reporting
-				report(ReportStatus.ERROR, stepDescription, String.format("No visible element found by locator string: %s}", locatorString), getScreenshot());
+
 			}
 		}else {
 			//logging
@@ -1237,7 +1232,7 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occurred while waiting for visibility of element", e, getScreenshot());
+
 			}
 		}else {
 			//logging
@@ -1255,7 +1250,7 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
 				//reporting
-				reportException(null, stepDescription, "Exception occurred while waiting for invisibility of element", e, getScreenshot());
+
 			}
 		}else {
 			//logging
@@ -1274,7 +1269,7 @@ public class DriverControllerV3 {
 				log(Level.ERROR, stepDescription, "No invisible element found by locator string: {}", locatorString);
 				//reporting
 				String message = String.format("No invisible element found by locator string: %s", locatorString);
-				reportException(ReportStatus.ERROR, stepDescription, message, new NoSuchElementException(message), getScreenshot());
+
 			}
 			return locatorOptional.isPresent();
 		}else {
@@ -1732,33 +1727,6 @@ public class DriverControllerV3 {
 	private void log(Level level, String stepDescription, String message, Object... arguments) {
 		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
 		logger.atLevel(level).log(message, arguments);
-	}
-	
-	private void report(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		if(screenshotFile != null) {
-			ReportingUtil.logInfo(message, screenshotFile);
-		}else {
-			ReportingUtil.logInfo(message);
-		}
-	}
-	
-	private void reportInfo(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		if(screenshotFile != null) {
-			ReportingUtil.logInfo(message, screenshotFile);
-		}else {
-			ReportingUtil.logInfo(message);
-		}
-	}
-	
-	private void reportException(ReportStatus reportStatus, String stepDescription, String message, Exception e, File screenshotFile) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		if(screenshotFile != null) {
-			ReportingUtil.logException(message, e, screenshotFile);
-		}else {
-			ReportingUtil.logException(message, e);
-		}
 	}
 	
 }
