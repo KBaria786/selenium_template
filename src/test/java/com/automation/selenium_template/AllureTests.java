@@ -1,5 +1,10 @@
 package com.automation.selenium_template;
 
+import com.automation.selenium_template.driver.DriverControllerV5;
+import com.automation.selenium_template.reports.AllureReportingProvider;
+import com.automation.selenium_template.reports.ReportUtil;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
 import io.qameta.allure.Allure;
@@ -37,8 +42,16 @@ public class AllureTests {
 		allure.stopStep(step6.getName());
 		
 		Allure.step("Test over", () -> {
-			Allure.step("Exception occured", () -> {throw e;});
+			Allure.step("Exception occurred", () -> {throw e;});
 		});
+	}
+
+	@Test
+	public void dc() {
+		WebDriverManager.chromedriver().setup();
+		DriverControllerV5 dc = new DriverControllerV5(new ChromeDriver());
+		ReportUtil.setReportingProvider(new AllureReportingProvider());
+		dc.get("launch google", "http://google.com");
 	}
 	
 }
