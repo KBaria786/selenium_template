@@ -2682,6 +2682,13 @@ public class DriverControllerV4 {
 
 	// logging
 
+	/**
+	 * 
+	 * @param level logging level at which to log the information
+	 * @param stepDescription short step description
+	 * @param details step details
+	 * @param arguments a list (actually an array) of arguments to be used with the information to log
+	 */
 	private void log(Level level, String stepDescription, String details, Object... arguments) {
 		details = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, details) : details;
 		logger.atLevel(level).log(details, arguments);
@@ -2689,14 +2696,33 @@ public class DriverControllerV4 {
 
 	// reporting
 
+	/**
+	 * Report a successful step.
+	 * @param stepDescription short step description
+	 * @param details step details
+	 * @param screenshot screenshot to attach
+	 */
 	private void reportStepSuccess(String stepDescription, String details, byte[] screenshot) {
 
 	}
 
+	/**
+	 * Report a failed step.
+	 * @param stepDescription short step description
+	 * @param details step details
+	 * @param screenshot screenshot to attach
+	 */
 	private void reportStepFailure(String stepDescription, String details, byte[] screenshot) {
 
 	}
 
+	/**
+	 * Report a successful step.
+	 * @param stepDescription short step description
+	 * @param details step details
+	 * @param exception exception to attach
+	 * @param screenshot screenshot to attach
+	 */
 	private void reportStepFailure(String stepDescription, String details, Throwable exception, byte[] screenshot) {
 
 	}
