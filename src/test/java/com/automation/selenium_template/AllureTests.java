@@ -7,8 +7,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
 import com.automation.selenium_template.driver.DriverControllerV3;
-import com.automation.selenium_template.reports.AllureReportingProvider;
-import com.automation.selenium_template.reports.ReportingUtil;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Allure;

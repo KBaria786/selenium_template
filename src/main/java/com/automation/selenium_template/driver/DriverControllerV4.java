@@ -1,6 +1,5 @@
 package com.automation.selenium_template.driver;
 
-import java.io.File;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -8,12 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WindowType;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,23 +17,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-import com.automation.selenium_template.reports.ReportStatus;
-import com.automation.selenium_template.reports.ReportingUtil;
-
 public class DriverControllerV4 {
-	
+
 	private WebDriver webDriver;
 	private Duration defaultExplicitWaitDuration;
-	private static Logger logger = LoggerFactory.getLogger(DriverController.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(DriverController.class);
+
 	public DriverControllerV4(WebDriver webDriver) {
 		super();
 		this.webDriver = webDriver;
 	}
-	
-	
+
+
 	// getters and setters
-	
+
 	public WebDriver getWebDriver() {
 		return webDriver;
 	}
@@ -47,18 +38,18 @@ public class DriverControllerV4 {
 	public void setWebDriver(WebDriver webDriver) {
 		this.webDriver = webDriver;
 	}
-	
+
 	public Duration getDefaultExplicitWaitDuration() {
 		return defaultExplicitWaitDuration;
 	}
-	
+
 	public void setDefaultExplicitWaitDuration(Duration defaultExplicitWaitDuration) {
 		this.defaultExplicitWaitDuration = defaultExplicitWaitDuration;
 	}
-	
-	
+
+
 	// operations
-	
+
 	/**
 	 * Load a new web page in the current browser window.
 	 * @param stepDescription short step description
@@ -72,24 +63,24 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully loaded url: {}", url);
 				//reporting
-				
+				reportStepSuccess(stepDescription, String.format("Successfully loaded url: %s", url), null);
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, String.format("Exception occured while loading url: %s", url), e);
+				log(Level.ERROR, stepDescription, String.format("Exception occurred while loading url: %s", url), e);
 				//reporting
-				
+				reportStepFailure(stepDescription, String.format("Exception occurred while loading url: %s", url), e, null);
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank url: {}", url);
 			//reporting
-			
+			reportStepFailure(stepDescription, "Blank url", null);
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Close the current window, quitting the browser if it's the last window currently open. 
+	 * Close the current window, quitting the browser if it's the last window currently open.
 	 * @param stepDescription short step description
 	 * @return true if operation is successful otherwise false
 	 */
@@ -99,16 +90,16 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully closed current window");
 			//reporting
-			
+			reportStepSuccess(stepDescription, "Successfully closed current window", null);
 		}catch (Exception e) {
 			//logging
-			log(Level.ERROR, stepDescription, "Exception occured while closing current window", e);
+			log(Level.ERROR, stepDescription, "Exception occurred while closing current window", e);
 			//reporting
-			
+			reportStepFailure(stepDescription, "Exception occurred while closing current window", e, null);
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Quits the driver, closing every associated window.
 	 * @param stepDescription short step description
@@ -120,16 +111,16 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully quit web driver");
 			//reporting
-			
+			reportStepSuccess(stepDescription, "Successfully quit web driver", null);
 		}catch (Exception e) {
 			//logging
-			log(Level.ERROR, stepDescription, "Exception occured while quitting web driver", e);
+			log(Level.ERROR, stepDescription, "Exception occurred while quitting web driver", e);
 			//reporting
-			
+			reportStepFailure(stepDescription, "Exception occurred while quitting web driver", e, null);
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element found using the given 'locatorString' string which is visible and within viewport.
 	 * @param stepDescription short step description
@@ -144,11 +135,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 			//reporting
-			
+			reportStepFailure(stepDescription, "Blank locator string", null);
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element found using the given 'by' locator which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -163,11 +154,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
-			
+			reportStepFailure(stepDescription, "Null locator", null);
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element that is visible and within the view port.
 	 * @param stepDescription short step description
@@ -182,11 +173,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
-			
+			reportStepFailure(stepDescription, "Null web element", null);
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element that is visible and within the view port.
 	 * @param stepDescription short step description
@@ -200,18 +191,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				
+				reportStepSuccess(stepDescription, "Successfully clicked web element", null);
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while clicking web element", e);
 				//reporting
-				
+				reportStepFailure(stepDescription, "Exception occurred while clicking web element", e, getScreenshot());
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element using {@link Actions} found using the given 'locatorString' string which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -226,11 +217,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element using {@link Actions} found using the given 'by' locator which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -245,11 +236,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element using {@link Actions} which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -264,11 +255,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element using {@link Actions} which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -283,18 +274,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while clicking web element", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element using {@link JavascriptExecutor} found using the given 'locatorString' string that is present on the DOM.
 	 * @param stepDescription short step description
@@ -309,11 +300,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the first web using {@link JavascriptExecutor} element found using the given 'by' locator that is present on the DOM.
 	 * @param stepDescription short step description
@@ -328,11 +319,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Click on the web element using {@link JavascriptExecutor} which is present on the DOM.
 	 * @param stepDescription short step description
@@ -347,13 +338,13 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Click on the web element using {@link JavascriptExecutor} which is present on the DOM. 
+	 * Click on the web element using {@link JavascriptExecutor} which is present on the DOM.
 	 * @param stepDescription short step description
 	 * @param webElement the web element to click on
 	 * @return true if operation is successful otherwise false
@@ -366,18 +357,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while clicking web element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while clicking web element", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate typing into the web element found using the given 'locatorString' string which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -391,13 +382,13 @@ public class DriverControllerV4 {
 			return performSendKeysOperation(stepDescription, webElement, value);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, value: {}", locatorString, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate typing into the web element found using the given 'by' locator which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -413,11 +404,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate typing into the web element which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -433,11 +424,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate typing into the web element which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -452,18 +443,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while sending keys to web element", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate clearing the text and then typing into the web element found using the given 'locatorString' string which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -477,13 +468,13 @@ public class DriverControllerV4 {
 			return performClearAndSendKeysOperation(stepDescription, webElement, value);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, value: {}", locatorString, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate clearing the text and then typing into the web element found using the given 'by' locator which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -499,11 +490,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate clearing the text and then typing into the web element which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -519,11 +510,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to simulate clearing the text and then typing into the web element which is visible and within the viewport. This may also set the web element's value.
 	 * @param stepDescription short step description
@@ -539,18 +530,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while sending keys to web element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while sending keys to web element", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that display text matching the given 'visibleText' for the web element found using the given 'locatorString' string which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -564,13 +555,13 @@ public class DriverControllerV4 {
 			return performSelectByVisibleTextOperation(stepDescription, webElement, visibleText);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, visibleText: {}", locatorString, visibleText);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, visibleText: {}", locatorString, visibleText);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that display text matching the given 'visibleText' string for the web element found using the given 'by' locator which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -586,11 +577,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, visibleText: {}", by, visibleText);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that display text matching the given 'visibleText' string for the web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -606,11 +597,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, visibleText: {}", webElement, visibleText);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that display text matching the given 'visibleText' string for the web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -626,18 +617,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by visible text on web element", visibleText, webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while selecting option by visible text", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while selecting option by visible text", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that have a value matching the given 'value' string for the web element found using the given 'locatorString' string which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -651,13 +642,13 @@ public class DriverControllerV4 {
 			return performSelectByValueOperation(stepDescription, webElement, value);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatoString: {}, value: {}", locatorString, value);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, value: {}", locatorString, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that have a value matching the given 'value' string for the web element found using the given 'locatorString' string which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -673,11 +664,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that have a value matching the given 'value' string for the web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -693,11 +684,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select all options that have a value matching the given 'value' string for the web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -713,18 +704,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by value on web element", value, webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while selecting option by value", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while selecting option by value", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to drag and drop a web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -741,11 +732,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. sourceLocatorString: {}, targetLocatorString: {}", sourceLocatorString, targetLocatorString);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to drag and drop a web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -762,11 +753,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null. sourceBy: {}, targetBy: {}", sourceBy, targetBy);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to drag and drop a web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -783,11 +774,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null. sourceWebElement: {}, targetWebElement: {}", sourceWebElement, targetWebElement);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to drag and drop a web element which is visible and within the viewport.
 	 * @param stepDescription short step description
@@ -803,18 +794,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully dragged and dropped web element: {}", sourceWebElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while dragging and dropping element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while dragging and dropping element", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get the value of the given attribute of the element which is present on the DOM.
 	 * @param stepDescription short step description
@@ -830,11 +821,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}", locatorString, attribute);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the value of the given attribute of the element which is present on the DOM.
 	 * @param stepDescription short step description
@@ -850,11 +841,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}", by, attribute);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the value of the given attribute of the element which is present on the DOM.
 	 * @param stepDescription short step description
@@ -869,11 +860,11 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}", webElement, attribute);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the value of the given attribute of the element which is present on the DOM.
 	 * @param stepDescription short step description
@@ -888,20 +879,20 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully got attribute: {} of web element", attribute, webElement);
 				//reporting
-				
+
 				return value;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while getting attribute of web element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while getting attribute of web element", e);
 				//reporting
-				
+
 			}
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Return an opaque handle to this window that uniquely identifies it within this driver instance.This can be used to switch to this window at a later date 
+	 * Return an opaque handle to this window that uniquely identifies it within this driver instance.This can be used to switch to this window at a later date
 	 * @param stepDescription short step description
 	 * @return The current window handle
 	 */
@@ -911,17 +902,17 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got window handle: {}", windowHandle);
 			//reporting
-			
+
 			return windowHandle;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting window handle", e);
 			//reporting
-			
+
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Return a set of window handles which can be used to iterate over all open windows.
 	 * @param stepDescription short step description
@@ -933,19 +924,19 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got window handles");
 			//reporting
-			
+
 			return windowHandles;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting window handles", e);
 			//reporting
-			
+
 			return Set.of();
 		}
 	}
-	
+
 	/**
-	 * Get the title of the current page. 
+	 * Get the title of the current page.
 	 * @param stepDescription short step description
 	 * @return The title of the current page, with leading and trailing whitespace stripped, or null if one is not already set
 	 */
@@ -955,17 +946,17 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got title: {}", title);
 			//reporting
-			
+
 			return title;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting title", e);
 			//reporting
-			
+
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get a string representing the current URL that the browser is looking at.
 	 * @param stepDescription short step description
@@ -977,23 +968,23 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got current page url: {}", url);
 			//reporting
-			
+
 			return url;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting current page url", e);
 			//reporting
-			
+
 			return null;
 		}
 	}
-	
+
 	/**
-     * Switch the focus of future commands for this driver to the window with the given name/handle.
-     * @param stepDescription short step description
-     * @param windowHandle The name or the window handle
-     * @return true if the driver is focused on the new window otherwise false
-     */
+	 * Switch the focus of future commands for this driver to the window with the given name/handle.
+	 * @param stepDescription short step description
+	 * @param windowHandle The name or the window handle
+	 * @return true if the driver is focused on the new window otherwise false
+	 */
 	public boolean switchToWindow(String stepDescription, String windowHandle) {
 		if(StringUtils.isNotBlank(windowHandle)) {
 			try {
@@ -1001,32 +992,32 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to window");
 				//reporting
-				
+
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to window", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank window handle: {}", windowHandle);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
-     * Creates a new browser window and switches the focus for future commands of this driver to the
-     * new window.
-     * @param stepDescription short step description
-     * @param windowType The type of new browser window to be created. The created window is not
-     *     guaranteed to be of the requested type; if the driver does not support the requested
-     *     type, a new browser window will be created of whatever type the driver does support.
-     * @return true if the driver is focused on the given window otherwise false
-     */
+	 * Creates a new browser window and switches the focus for future commands of this driver to the
+	 * new window.
+	 * @param stepDescription short step description
+	 * @param windowType The type of new browser window to be created. The created window is not
+	 *     guaranteed to be of the requested type; if the driver does not support the requested
+	 *     type, a new browser window will be created of whatever type the driver does support.
+	 * @return true if the driver is focused on the given window otherwise false
+	 */
 	public boolean switchToNewWindow(String stepDescription, WindowType windowType) {
 		if(windowType != null) {
 			try {
@@ -1034,26 +1025,26 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to new window");
 				//reporting
-				
+
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to new window", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null window type: {}", windowType);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
-	
+
+
 	// alert
-	
+
 	/**
 	 * Get alert if present.
 	 * @param stepDescription short step description
@@ -1066,17 +1057,17 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully found alert: {}", alert);
 			//reporting
-			
+
 			return alert != null;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while finding alert", e);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Switches to the currently active modal dialog for this particular driver instance.
 	 * @param stepDescription short step description
@@ -1089,23 +1080,23 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to alert");
 				//reporting
-				
+
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to alert", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not found");
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to send keys to the alert.
 	 * @param stepDescription short step description
@@ -1121,29 +1112,29 @@ public class DriverControllerV4 {
 					//logging
 					log(Level.INFO, stepDescription, "Successfully sent keys: {} to alert", value);
 					//reporting
-					
+
 					return true;
 				}catch(Exception e) {
 					//logging
 					log(Level.ERROR, stepDescription, "Exception while sending keys to alert", e);
 					//reporting
-					
+
 				}
 			}else {
 				//logging
 				log(Level.ERROR, stepDescription, "Blank value: {}", value);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to accept alert.
 	 * @param stepDescription short step description
@@ -1157,23 +1148,23 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully accepted alert");
 				//reporting
-				
+
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while accepting alert", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to dismiss alert.
 	 * @param stepDescription short step description
@@ -1187,28 +1178,28 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully dismissed alert");
 				//reporting
-				
+
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while dismissing for alert", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
-	
+
+
 	//frame
-	
+
 	/**
-	 * Select a frame by its (zero-based) index. Once the frame has been selected, all subsequent calls on the WebDriver interface are made to that frame. 
+	 * Select a frame by its (zero-based) index. Once the frame has been selected, all subsequent calls on the WebDriver interface are made to that frame.
 	 * @param stepDescription short step description
 	 * @param index (zero-based) index
 	 * @return true if driver is focused on the given frame otherwise false
@@ -1220,26 +1211,26 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to iframe with index: {}", index);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while switching to iframe", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while switching to iframe", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Invalid index: {}", index);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Select a frame by its name or ID. Frames located by matching name attributes are always given precedence over those matched by ID.
-	 * @param stepDescription
+	 * @param stepDescription short step description
 	 * @param nameOrId the name of the frame window, the id of the frame or frame element, or the (zero-based) index
 	 * @return true if driver is focused on the given frame otherwise false
 	 */
@@ -1250,27 +1241,27 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to iframe with name or id: {}", nameOrId);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while switching to iframe", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while switching to iframe", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank name of id: {}", nameOrId);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Select a frame using the locator to find the web element. 
+	 * Select a frame using the locator to find the web element.
 	 * @param stepDescription short step description
-	 * @param webElement The frame element to switch to
+	 * @param locatorString string to find the frame web element with
 	 * @return true if the driver is focused on the given frame otherwise false
 	 */
 	public boolean switchToIFrame(String stepDescription, String locatorString) {
@@ -1281,15 +1272,15 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Select a frame using the locator to find the web element. 
+	 * Select a frame using the locator to find the web element.
 	 * @param stepDescription short step description
-	 * @param by The frame element locator to switch to
+	 * @param by locator to find the frame web element with
 	 * @return true if the driver is focused on the given frame otherwise false
 	 */
 	public boolean switchToIFrame(String stepDescription, By by) {
@@ -1300,13 +1291,13 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Select a frame using the located web element. 
+	 * Select a frame using the located web element.
 	 * @param stepDescription short step description
 	 * @param webElement The frame element to switch to
 	 * @return true of the driver is focused on the given frame otherwise false
@@ -1318,13 +1309,13 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Select a frame using the located web element. 
+	 * Select a frame using the located web element.
 	 * @param stepDescription short step description
 	 * @param webElement The frame element to switch to
 	 * @return true if the driver is focused on the given frame otherwise false
@@ -1336,20 +1327,20 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to iframe: {}", webElement);
 				//reporting
-				
+
 				return true;
 			}catch (Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occurred while switcing to iframe", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while switching to iframe", e);
 				//reporting
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Selects either the first frame on the page, or the main document when a page contains iframes. 
+	 * Selects either the first frame on the page, or the main document when a page contains iframes.
 	 * @param stepDescription short step description
 	 * @return true if driver is focused on the top window/first frame otherwise false
 	 */
@@ -1359,21 +1350,29 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.INFO, stepDescription, "Successfully switched to default content");
 			//reporting
-			
+
 			return true;
 		}catch (Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception occurred while switching to default content", e);
 			//reporting
-			
+
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Capture screenshot
+	 * @return Obtain the screenshot as raw bytes.
+	 */
+	public byte[] getScreenshot() {
+		return ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES);
+	}
+
 	// explicit waits
-	
+
 	// presence
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
 	 * @param stepDescription short step description
@@ -1384,7 +1383,7 @@ public class DriverControllerV4 {
 	public WebElement isElementPresent(String stepDescription, String locatorString, Duration duration) {
 		return waitForPresenceOfElement(stepDescription, locatorString, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
 	 * <p>This method generates report if the element is not present on the DOM.</p>
@@ -1396,7 +1395,7 @@ public class DriverControllerV4 {
 	public WebElement waitForPresenceOfElement(String stepDescription, String locatorString, Duration duration) {
 		return waitForPresenceOfElement(stepDescription, locatorString, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
 	 * <p>This method generates report if the element is not present on the DOM based on the value of 'generateReport'</p>
@@ -1420,7 +1419,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "No element present by locator string: {}", locatorString);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1428,12 +1427,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString, duration);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
 	 * @param stepDescription short step description
@@ -1444,7 +1443,7 @@ public class DriverControllerV4 {
 	public WebElement isElementPresent(String stepDescription, By by, Duration duration) {
 		return waitForPresenceOfElement(stepDescription, by, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
 	 * <p>This method generates report if the element is not present on the DOM.</p>
@@ -1456,7 +1455,7 @@ public class DriverControllerV4 {
 	public WebElement waitForPresenceOfElement(String stepDescription, By by, Duration duration) {
 		return waitForPresenceOfElement(stepDescription, by, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page. This does not necessarily mean that the element is visible.
 	 * <p>This method generates report if the element is not present on the DOM based on the value of 'generateReport'</p>
@@ -1473,10 +1472,10 @@ public class DriverControllerV4 {
 				return wait.until(ExpectedConditions.presenceOfElementLocated(by));
 			}catch(Exception e) {
 				//logging
-				log(Level.ERROR, stepDescription, "Exception occured while waiting for presence of element", e);
+				log(Level.ERROR, stepDescription, "Exception occurred while waiting for presence of element", e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1484,14 +1483,14 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null locator: {}", by, duration);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return null;
 	}
-	
+
 	// visibility
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page and visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1503,7 +1502,7 @@ public class DriverControllerV4 {
 	public WebElement isElementVisible(String stepDescription, String locatorString, Duration duration) {
 		return waitForVisibilityOfElement(stepDescription, locatorString, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page and visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1516,7 +1515,7 @@ public class DriverControllerV4 {
 	public WebElement waitForVisibilityOfElement(String stepDescription, String locatorString, Duration duration) {
 		return waitForVisibilityOfElement(stepDescription, locatorString, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page and visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1540,7 +1539,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "No visible element found by locator string: {}", locatorString);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1548,12 +1547,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page and visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1565,7 +1564,7 @@ public class DriverControllerV4 {
 	public WebElement isElementVisible(String stepDescription, By by, Duration duration) {
 		return waitForVisibilityOfElement(stepDescription, by, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page and visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1578,7 +1577,7 @@ public class DriverControllerV4 {
 	public WebElement waitForVisibilityOfElement(String stepDescription, By by, Duration duration) {
 		return waitForVisibilityOfElement(stepDescription, by, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is present on the DOM of a page and visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1599,7 +1598,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1607,12 +1606,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * An expectation for checking that an element, known to be present on the DOM of a page, is visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1624,7 +1623,7 @@ public class DriverControllerV4 {
 	public WebElement isElementVisible(String stepDescription, WebElement webElement, Duration duration) {
 		return waitForVisibilityOfElement(stepDescription, webElement, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element, known to be present on the DOM of a page, is visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1637,7 +1636,7 @@ public class DriverControllerV4 {
 	public WebElement waitForVisibilityOfElement(String stepDescription, WebElement webElement, Duration duration) {
 		return waitForVisibilityOfElement(stepDescription, webElement, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element, known to be present on the DOM of a page, is visible.
 	 * Visibility means that the element is not only displayed but also has a height and width that is greater than 0.
@@ -1658,7 +1657,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1666,14 +1665,14 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return null;
 	}
-	
+
 	// invisibility
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * @param stepDescription short step description
@@ -1684,7 +1683,7 @@ public class DriverControllerV4 {
 	public boolean isElementInvisible(String stepDescription, String locatorString, Duration duration) {
 		return waitForInvisibilityOfElement(stepDescription, locatorString, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * <p>This method generates report if the element is visible on the DOM.</p>
@@ -1696,7 +1695,7 @@ public class DriverControllerV4 {
 	public boolean waitForInvisibilityOfElement(String stepDescription, String locatorString, Duration duration) {
 		return waitForInvisibilityOfElement(stepDescription, locatorString, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * <p>This method generates report if the element is visible on the DOM based on the value of 'generateReport'.</p>
@@ -1716,7 +1715,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "No invisible element found by locator string: {}", locatorString);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 			return locatorOptional.isPresent();
@@ -1725,12 +1724,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * @param stepDescription short step description
@@ -1741,7 +1740,7 @@ public class DriverControllerV4 {
 	public boolean isElementInvisible(String stepDescription, By by, Duration duration) {
 		return waitForInvisibilityOfElement(stepDescription, by, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * <p>This method generates report if the element is visible on the DOM.</p>
@@ -1753,7 +1752,7 @@ public class DriverControllerV4 {
 	public boolean waitForInvisibilityOfElement(String stepDescription, By by, Duration duration) {
 		return waitForInvisibilityOfElement(stepDescription, by, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * <p>This method generates report if the element is visible on the DOM based on the value of 'generateReport'.</p>
@@ -1773,7 +1772,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1781,12 +1780,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * @param stepDescription short step description
@@ -1797,7 +1796,7 @@ public class DriverControllerV4 {
 	public boolean isElementInvisible(String stepDescription, WebElement webElement, Duration duration) {
 		return waitForInvisibilityOfElement(stepDescription, webElement, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * <p>This method generates report if the element is visible on the DOM.</p>
@@ -1809,7 +1808,7 @@ public class DriverControllerV4 {
 	public boolean waitForInvisibilityOfElement(String stepDescription, WebElement webElement, Duration duration) {
 		return waitForInvisibilityOfElement(stepDescription, webElement, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking that an element is either invisible or not present on the DOM.
 	 * <p>This method generates report if the element is visible on the DOM based on the value of 'generateReport'.</p>
@@ -1829,7 +1828,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1837,14 +1836,14 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	// attribute to be
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * @param stepDescription short step description
@@ -1852,13 +1851,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute with the value
 	 */
 	public boolean isElementAttributeEqualTo(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
 		return waitForAttributeToBe(stepDescription, locatorString, attribute, value, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not equal to the given 'value'.</p>
@@ -1867,13 +1865,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute with the value
 	 */
 	public boolean waitForAttributeToBe(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
 		return waitForAttributeToBe(stepDescription, locatorString, attribute, value, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not equal to the given 'value' based on the DOM based on the value of 'generateReport'.</p>
@@ -1901,7 +1898,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1909,12 +1906,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}, value: {}", locatorString, attribute, value);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * @param stepDescription short step description
@@ -1922,13 +1919,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute with the value
 	 */
 	public boolean isElementAttributeEqualTo(String stepDescription, By by, String attribute, String value, Duration duration) {
 		return waitForAttributeToBe(stepDescription, by, attribute, value, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not equal to the given 'value'.</p>
@@ -1937,13 +1933,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute with the value
 	 */
 	public boolean waitForAttributeToBe(String stepDescription, By by, String attribute, String value, Duration duration) {
 		return waitForAttributeToBe(stepDescription, by, attribute, value, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not equal to the given 'value' based on the DOM based on the value of 'generateReport'.</p>
@@ -1965,7 +1960,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -1973,12 +1968,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}, value: {}", by, attribute, value);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * @param stepDescription short step description
@@ -1986,13 +1981,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute with the value
 	 */
 	public boolean isElementAttributeEqualTo(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
 		return waitForAttributeToBe(stepDescription, webElement, attribute, value, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking given WebElement has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not equal to the given 'value'.</p>
@@ -2001,7 +1995,6 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute with the value
 	 */
 	public boolean waitForAttributeToBe(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
@@ -2029,7 +2022,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -2037,14 +2030,14 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}, value: {}", webElement, attribute, value);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	// attribute to contain
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * @param stepDescription short step description
@@ -2052,13 +2045,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute which contains the value
 	 */
 	public boolean doesElementAttributeContain(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
 		return waitForAttributeToContain(stepDescription, locatorString, attribute, value, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not contain the given 'value'.</p>
@@ -2067,13 +2059,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute which contains the value
 	 */
 	public boolean waitForAttributeToContain(String stepDescription, String locatorString, String attribute, String value, Duration duration) {
 		return waitForAttributeToContain(stepDescription, locatorString, attribute, value, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not contain the given 'value' based on the DOM based on the value of 'generateReport'.</p>
@@ -2095,13 +2086,13 @@ public class DriverControllerV4 {
 					//logging
 					log(Level.ERROR, stepDescription, "No element found with {} = {} by locator string: {}", attribute, value, locatorString);
 				}
-				locatorOptional.isPresent();
+				return locatorOptional.isPresent();
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -2109,12 +2100,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}, value: {}", locatorString, attribute, value);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * @param stepDescription short step description
@@ -2122,13 +2113,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute which contains the value
 	 */
 	public boolean doesElementAttributeContain(String stepDescription, By by, String attribute, String value, Duration duration) {
 		return waitForAttributeToContain(stepDescription, by, attribute, value, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not contain the given 'value'.</p>
@@ -2137,13 +2127,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute which contains the value
 	 */
 	public boolean waitForAttributeToContain(String stepDescription, By by, String attribute, String value, Duration duration) {
 		return waitForAttributeToContain(stepDescription, by, attribute, value, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not contain the given 'value' based on the DOM based on the value of 'generateReport'.</p>
@@ -2165,7 +2154,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to be {}", attribute, value), e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -2173,12 +2162,12 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}, value: {}", by, attribute, value);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * @param stepDescription short step description
@@ -2186,13 +2175,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute which contains the value
 	 */
 	public boolean doesElementAttributeContain(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
 		return waitForAttributeToContain(stepDescription, webElement, attribute, value, duration, false);
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not contain the given 'value'.</p>
@@ -2201,13 +2189,12 @@ public class DriverControllerV4 {
 	 * @param attribute attribute name of the web element
 	 * @param value value to be present
 	 * @param duration duration to wait for
-	 * @param generateReport boolean value to determine if reports will be generated or not
 	 * @return true when element has css or html attribute which contains the value
 	 */
 	public boolean waitForAttributeToContain(String stepDescription, WebElement webElement, String attribute, String value, Duration duration) {
 		return waitForAttributeToContain(stepDescription, webElement, attribute, value, duration, true);
 	}
-	
+
 	/**
 	 * An expectation for checking WebElement with given locator has attribute with a specific value.
 	 * <p>This method generates report if the element attribute does not contain the given 'value' based on the DOM based on the value of 'generateReport'.</p>
@@ -2229,21 +2216,21 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, String.format("Exception occurred while waiting for attribute {} to contain {}", attribute, value), e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}, value: {}", webElement, attribute, value);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return false;
 	}
-	
+
 	// custom condition
-	
+
 	/**
 	 * Method to apply an explicit wait on a custom expected condition.
 	 * @param <T> return type of the given 'expectedCondition'
@@ -2263,7 +2250,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for custom expected condition", e);
 				//reporting
 				if(generateReport) {
-					
+
 				}
 			}
 		}else {
@@ -2271,15 +2258,15 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null custom expected condition: {}", expectedCondition);
 			//reporting
 			if(generateReport) {
-				
+
 			}
 		}
 		return null;
 	}
-	
-	
+
+
 	// find element
-	
+
 	/**
 	 * Find the first WebElement using the given method.
 	 * @param locatorString the string to find the web element with
@@ -2298,17 +2285,17 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "No web element found with locator string: {}", locatorString);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find the first WebElement using the given method.
 	 * @param by the locator to find the web element with
@@ -2328,7 +2315,7 @@ public class DriverControllerV4 {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find the first WebElement using the given method.
 	 * @param by the locator to find the web element with
@@ -2342,17 +2329,17 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while finding web element", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "Null locator: {}", by);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find all elements within the current page using the given 'locatorString' locator.
 	 * @param locatorString the string to find the web element with
@@ -2371,17 +2358,17 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "No web elements found with locator string: {}", locatorString);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
 			//reporting
-			
+
 		}
 		return List.of();
 	}
-	
+
 	/**
 	 * Find all elements within the current page using the given 'by' locator.
 	 * @param by the locator to find the web element with
@@ -2401,7 +2388,7 @@ public class DriverControllerV4 {
 		}
 		return List.of();
 	}
-	
+
 	/**
 	 * Find all elements within the current page using the given 'by' locator.
 	 * @param by the locator to find the web element with
@@ -2415,17 +2402,17 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while finding web elements with locator", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "Null locator {}", by);
 			//reporting
-			
+
 		}
 		return List.of();
 	}
-	
+
 	/**
 	 * Find the first child web element of the given 'parentWebElement' web element using the given 'locatorString' string.
 	 * @param parentWebElement parent web element from which to locate the child web element
@@ -2445,17 +2432,17 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "No child web element found with locator string: {}", locatorString);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null or blank. parentWebElement: {}, locatorString: {}", parentWebElement, locatorString);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find the first child web element of the given 'parentWebElement' web element using the given 'by' locator
 	 * @param parentWebElement parent web element from which to locate the child web element
@@ -2476,7 +2463,7 @@ public class DriverControllerV4 {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find the first child web element of the given 'parentWebElement' web element using the given 'by' locator
 	 * @param parentWebElement parent web element from which to locate the child web element
@@ -2491,21 +2478,21 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null. parentWebElement: {}, by: {}", parentWebElement, by);
 			//reporting
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find list of child web elements of the given 'parentWebElement' web element using the given 'by' locator
 	 * @param parentWebElement parent web element from which to locate the child web element
-	 * @param by locator to find the child web element with
+	 * @param locatorString string to find the child web element with
 	 * @return The first matching element on the current page
 	 */
 	public List<WebElement> findChildWebElements(WebElement parentWebElement, String locatorString) {
@@ -2521,17 +2508,17 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "No child web elements found with locator string: {}", locatorString);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null or blank. parentWebElement: {}, locatorString: {}", parentWebElement, locatorString);
 			//reporting
-			
+
 		}
 		return List.of();
 	}
-	
+
 	/**
 	 * Find list of child web elements of the given 'parentWebElement' web element using the given 'by' locator
 	 * @param parentWebElement parent web element from which to locate the child web element
@@ -2545,7 +2532,7 @@ public class DriverControllerV4 {
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
-				
+
 			}
 		}else {
 			//logging
@@ -2553,7 +2540,7 @@ public class DriverControllerV4 {
 		}
 		return List.of();
 	}
-	
+
 	/**
 	 * Find list of child web elements of the given 'parentWebElement' web element using the given 'by' locator
 	 * @param parentWebElement parent web element from which to locate the child web element
@@ -2568,20 +2555,20 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while finding child web elements", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "One or more of the required fields is null. parentWebElement: {}, by: {}", parentWebElement, by);
 			//reporting
-			
+
 		}
 		return List.of();
 	}
-	
-	
+
+
 	// locator pairs
-	
+
 	/**
 	 * Get list of locators from the given 'locatorString' string where each locator key and value pair is separated by ';'.
 	 * <p>Example : {@code xpath~//div[@class='some-class'];xpath~//div[@id='some-id']}</p>
@@ -2593,7 +2580,7 @@ public class DriverControllerV4 {
 			List<String> locatorPairStrings = Arrays.asList(locatorString.split(";"));
 			List<List<String>> locatorPairs = locatorPairStrings.stream()
 					.map(locatorPairString -> extractLocatorPair(locatorPairString))
-					.filter(locatorPairList -> locatorPairList.size() > 0)
+					.filter(locatorPairList -> !locatorPairList.isEmpty())
 					.toList();
 			List<By> locators = locatorPairs.stream()
 					.map(locatorPair -> getLocator(locatorPair.get(0), locatorPair.get(1)))
@@ -2603,18 +2590,18 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "No locators found with locator string: {}", locatorString);
 				//reporting
-				
+
 			}
 			return locators;
 		}else {
 			//logging
 			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
 			//reporting
-			
+
 		}
 		return List.of();
 	}
-	
+
 	/**
 	 * Method to convert the locator key and value into a {@link By} locator
 	 * @param locatorKey locator key string
@@ -2625,47 +2612,47 @@ public class DriverControllerV4 {
 		if(StringUtils.isNotBlank(locatorKey) && StringUtils.isNotBlank(locatorValue)) {
 			By byLocator = null;
 			switch (locatorKey) {
-			case "xpath":
-				byLocator = By.xpath(locatorValue);
-				break;
-			case "className":
-				byLocator = By.className(locatorValue);
-				break;
-			case "name":
-				byLocator = By.name(locatorValue);
-				break;
-			case "id":
-				byLocator = By.id(locatorValue);
-				break;
-			case "css":
-				byLocator = By.cssSelector(locatorValue);
-				break;
-			case "tagName":
-				byLocator = By.tagName(locatorValue);
-				break;
-			case "linkText":
-				byLocator = By.linkText(locatorValue);
-				break;
-			case "partialLinkText":
-				byLocator = By.linkText(locatorValue);
-				break;
-			default:
-				//logging
-				log(Level.ERROR, null, "Invalid locator key: {}", locatorKey);
-				//reporting
-				
-				break;
+				case "xpath":
+					byLocator = By.xpath(locatorValue);
+					break;
+				case "className":
+					byLocator = By.className(locatorValue);
+					break;
+				case "name":
+					byLocator = By.name(locatorValue);
+					break;
+				case "id":
+					byLocator = By.id(locatorValue);
+					break;
+				case "css":
+					byLocator = By.cssSelector(locatorValue);
+					break;
+				case "tagName":
+					byLocator = By.tagName(locatorValue);
+					break;
+				case "linkText":
+					byLocator = By.linkText(locatorValue);
+					break;
+				case "partialLinkText":
+					byLocator = By.partialLinkText(locatorValue);
+					break;
+				default:
+					//logging
+					log(Level.ERROR, null, "Invalid locator key: {}", locatorKey);
+					//reporting
+
+					break;
 			}
 			return byLocator;
 		}else {
 			//logging
 			log(Level.ERROR, null, "One or more required fields is blank. locatorKey: {}, locatorValue: {}", locatorKey, locatorValue);
 			//reporting
-			
+
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Method to extract the locator key and value separated by '~'.
 	 * <p>Example : {@code xpath~//div[@class='some-class']}</p>
@@ -2680,44 +2667,37 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.ERROR, null, "Exception occurred while extracting locator pair", e);
 				//reporting
-				
+
 			}
 		}else {
 			//logging
 			log(Level.ERROR, null, "Blank locator pair string: {}", locatorPairString);
 			//reporting
-			
+
 		}
 		return List.of();
 	}
-	
-	
+
+
 	// logging
-	
-	private void log(Level level, String stepDescription, String message, Object... arguments) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		logger.atLevel(level).log(message, arguments);
+
+	private void log(Level level, String stepDescription, String details, Object... arguments) {
+		details = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, details) : details;
+		logger.atLevel(level).log(details, arguments);
 	}
-	
-	
+
 	// reporting
-	
-	private void reportInfo(ReportStatus reportStatus, String stepDescription, String message, File screenshotFile) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		if(screenshotFile != null) {
-			ReportingUtil.logInfo(message, screenshotFile);
-		}else {
-			ReportingUtil.logInfo(message);
-		}
+
+	private void reportStepSuccess(String stepDescription, String details, byte[] screenshot) {
+
 	}
-	
-	private void reportException(ReportStatus reportStatus, String stepDescription, String message, Exception e, File screenshotFile) {
-		message = StringUtils.isNotBlank(stepDescription) ? String.format("%s: %s", stepDescription, message) : message;
-		if(screenshotFile != null) {
-			ReportingUtil.logException(message, e, screenshotFile);
-		}else {
-			ReportingUtil.logException(message, e);
-		}
+
+	public void reportStepFailure(String stepDescription, String details, byte[] screenshot) {
+
 	}
-	
+
+	public void reportStepFailure(String stepDescription, String details, Throwable exception, byte[] screenshot) {
+
+	}
+
 }
