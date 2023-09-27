@@ -72,9 +72,9 @@ public class DriverControllerV4 {
 			}
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank url: {}", url);
+			log(Level.ERROR, stepDescription, "Null or blank url: {}", url);
 			//reporting
-			reportStepFailure(stepDescription, "Blank url", null);
+			reportStepFailure(stepDescription, "Null or blank url", null);
 		}
 		return false;
 	}
@@ -133,9 +133,9 @@ public class DriverControllerV4 {
 			return performClickOperation(stepDescription, webElement);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
 			//reporting
-			reportStepFailure(stepDescription, "Blank locator string", null);
+			reportStepFailure(stepDescription, "Null or blank locator string", null);
 		}
 		return false;
 	}
@@ -215,9 +215,9 @@ public class DriverControllerV4 {
 			return performClickUsingActionsOperation(stepDescription, webElement);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null or blank locator string", null);
 		}
 		return false;
 	}
@@ -236,7 +236,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null locator", null);
 		}
 		return false;
 	}
@@ -255,7 +255,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null web element", null);
 		}
 		return false;
 	}
@@ -274,13 +274,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully clicked web element", null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while clicking web element", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while clicking web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -298,9 +298,9 @@ public class DriverControllerV4 {
 			return performClickUsingJSExecutorOperation(stepDescription, webElement);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null or blank locator string", null);
 		}
 		return false;
 	}
@@ -319,7 +319,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null locator", null);
 		}
 		return false;
 	}
@@ -338,7 +338,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null web element", null);
 		}
 		return false;
 	}
@@ -357,13 +357,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully clicked web element: {}", webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully clicked web element", null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while clicking web element", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while clicking web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -382,9 +382,9 @@ public class DriverControllerV4 {
 			return performSendKeysOperation(stepDescription, webElement, value);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, value: {}", locatorString, value);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. locatorString: {}, value: {}", locatorString, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. locatorString: %s, value: %s", locatorString, value), null);
 		}
 		return false;
 	}
@@ -404,7 +404,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. by: %s, value: %s", by, value), null);
 		}
 		return false;
 	}
@@ -424,7 +424,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. webElement: %s, value: %s", webElement, value), null);
 		}
 		return false;
 	}
@@ -443,13 +443,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully sent keys: {} to web element", null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while sending keys to web element", e);
 				//reporting
-
+				reportStepFailure(stepDescription,"Exception occurred while sending keys to web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -468,9 +468,9 @@ public class DriverControllerV4 {
 			return performClearAndSendKeysOperation(stepDescription, webElement, value);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, value: {}", locatorString, value);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. locatorString: {}, value: {}", locatorString, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. locatorString: %s, value: %s}", locatorString, value), null);
 		}
 		return false;
 	}
@@ -490,7 +490,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. by: %s, value: %s", by, value), null);
 		}
 		return false;
 	}
@@ -510,7 +510,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. webElement: %s, value: %s", webElement, value), null);
 		}
 		return false;
 	}
@@ -530,13 +530,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while sending keys to web element", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while sending keys to web element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -555,9 +555,9 @@ public class DriverControllerV4 {
 			return performSelectByVisibleTextOperation(stepDescription, webElement, visibleText);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, visibleText: {}", locatorString, visibleText);
+			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. locatorString: {}, visibleText: {}", locatorString, visibleText);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. locatorString: %s, visibleText: %s", locatorString, visibleText), null);
 		}
 		return false;
 	}
@@ -577,7 +577,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, visibleText: {}", by, visibleText);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format( "One or more of the required fields is null or blank. by: %s, visibleText: %s", by, visibleText), null);
 		}
 		return false;
 	}
@@ -597,7 +597,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, visibleText: {}", webElement, visibleText);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. webElement: %s, visibleText: %s}", webElement, visibleText), null);
 		}
 		return false;
 	}
@@ -617,13 +617,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by visible text on web element", visibleText, webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, String.format("Successfully selected option: %s by visible text on web element", visibleText), null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while selecting option by visible text", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while selecting option by visible text", e, getScreenshot());
 			}
 		}
 		return false;
@@ -644,7 +644,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, value: {}", locatorString, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is blank. locatorString: %s, value: %s", locatorString, value), null);
 		}
 		return false;
 	}
@@ -664,7 +664,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, value: {}", by, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. by: %s, value: %s", by, value), null);
 		}
 		return false;
 	}
@@ -684,7 +684,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, value: {}", webElement, value);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. webElement: %s, value: %s", webElement, value), null);
 		}
 		return false;
 	}
@@ -704,13 +704,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully selected option: {} by value on web element", value, webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, String.format("Successfully selected option: %s by value on web element", value), null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while selecting option by value", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while selecting option by value", e, getScreenshot());
 			}
 		}
 		return false;
@@ -732,7 +732,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. sourceLocatorString: {}, targetLocatorString: {}", sourceLocatorString, targetLocatorString);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is blank. sourceLocatorString: %s, targetLocatorString: %s", sourceLocatorString, targetLocatorString), null);
 		}
 		return false;
 	}
@@ -753,7 +753,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null. sourceBy: {}, targetBy: {}", sourceBy, targetBy);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format(stepDescription, "One or more of the required fields is null. sourceBy: %s, targetBy: %s", sourceBy, targetBy), null);
 		}
 		return false;
 	}
@@ -774,7 +774,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null. sourceWebElement: {}, targetWebElement: {}", sourceWebElement, targetWebElement);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null. sourceWebElement: %s, targetWebElement: %s", sourceWebElement, targetWebElement), null);
 		}
 		return false;
 	}
@@ -794,13 +794,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully dragged and dropped web element: {}", sourceWebElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully dragged and dropped web element", null);
 				return true;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while dragging and dropping element", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while dragging and dropping element", e, getScreenshot());
 			}
 		}
 		return false;
@@ -821,7 +821,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is blank. locatorString: {}, attribute: {}", locatorString, attribute);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is blank. locatorString: %s, attribute: %s", locatorString, attribute), null);
 		}
 		return null;
 	}
@@ -841,7 +841,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. by: {}, attribute: {}", by, attribute);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. by: %s, attribute: %s", by, attribute), null);
 		}
 		return null;
 	}
@@ -860,7 +860,7 @@ public class DriverControllerV4 {
 			//logging
 			log(Level.ERROR, stepDescription, "One or more of the required fields is null or blank. webElement: {}, attribute: {}", webElement, attribute);
 			//reporting
-
+			reportStepFailure(stepDescription, String.format("One or more of the required fields is null or blank. webElement: %s, attribute: %s", webElement, attribute), null);
 		}
 		return null;
 	}
@@ -879,13 +879,13 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully got attribute: {} of web element", attribute, webElement);
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully got attribute of web element", null);
 				return value;
 			}catch (Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception occurred while getting attribute of web element", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception occurred while getting attribute of web element", e, getScreenshot());
 			}
 		}
 		return null;
@@ -901,14 +901,14 @@ public class DriverControllerV4 {
 			String windowHandle = webDriver.getWindowHandle();
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got window handle: {}", windowHandle);
-			//reporting
-
+			//reporting?
+			
 			return windowHandle;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting window handle", e);
-			//reporting
-
+			//reporting?
+			
 			return null;
 		}
 	}
@@ -923,13 +923,13 @@ public class DriverControllerV4 {
 			Set<String> windowHandles = webDriver.getWindowHandles();
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got window handles");
-			//reporting
+			//reporting?
 
 			return windowHandles;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting window handles", e);
-			//reporting
+			//reporting?
 
 			return Set.of();
 		}
@@ -945,13 +945,13 @@ public class DriverControllerV4 {
 			String title = webDriver.getTitle();
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got title: {}", title);
-			//reporting
+			//reporting?
 
 			return title;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting title", e);
-			//reporting
+			//reporting?
 
 			return null;
 		}
@@ -967,13 +967,13 @@ public class DriverControllerV4 {
 			String url = webDriver.getCurrentUrl();
 			//logging
 			log(Level.INFO, stepDescription, "Successfully got current page url: {}", url);
-			//reporting
+			//reporting?
 
 			return url;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while getting current page url", e);
-			//reporting
+			//reporting?
 
 			return null;
 		}
@@ -992,19 +992,19 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to window");
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully switched to window", null);
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to window", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception while switching to window", e, null);
 			}
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank window handle: {}", windowHandle);
-			//reporting
-
+			log(Level.ERROR, stepDescription, "Null or blank window handle: {}", windowHandle);
+			//reporting?
+			reportStepFailure(stepDescription, "Null or blank window handle", null);
 		}
 		return false;
 	}
@@ -1025,19 +1025,19 @@ public class DriverControllerV4 {
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to new window");
 				//reporting
-
+				reportStepSuccess(stepDescription, "Successfully switched to new window", null);
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to new window", e);
 				//reporting
-
+				reportStepFailure(stepDescription, "Exception while switching to new window", e, null);
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Null window type: {}", windowType);
 			//reporting
-
+			reportStepFailure(stepDescription, "Null window type", null);
 		}
 		return false;
 	}
@@ -1056,13 +1056,13 @@ public class DriverControllerV4 {
 			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			//logging
 			log(Level.INFO, stepDescription, "Successfully found alert: {}", alert);
-			//reporting
+			//reporting?
 
 			return alert != null;
 		}catch(Exception e) {
 			//logging
 			log(Level.ERROR, stepDescription, "Exception while finding alert", e);
-			//reporting
+			//reporting?
 
 		}
 		return false;
@@ -1079,19 +1079,19 @@ public class DriverControllerV4 {
 				webDriver.switchTo().alert();
 				//logging
 				log(Level.INFO, stepDescription, "Successfully switched to alert");
-				//reporting
+				//reporting?
 
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while switching to alert", e);
-				//reporting
+				//reporting?
 
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not found");
-			//reporting
+			//reporting?
 
 		}
 		return false;
@@ -1112,25 +1112,25 @@ public class DriverControllerV4 {
 					//logging
 					log(Level.INFO, stepDescription, "Successfully sent keys: {} to alert", value);
 					//reporting
-
+					reportStepSuccess(stepDescription, String.format("Successfully sent keys: %s to alert", value), null);
 					return true;
 				}catch(Exception e) {
 					//logging
 					log(Level.ERROR, stepDescription, "Exception while sending keys to alert", e);
 					//reporting
-
+					reportStepFailure(stepDescription, "Exception while sending keys to alert", e, getScreenshot());
 				}
 			}else {
 				//logging
-				log(Level.ERROR, stepDescription, "Blank value: {}", value);
+				log(Level.ERROR, stepDescription, "Null or blank value: {}", value);
 				//reporting
-
+				reportStepFailure(stepDescription, String.format("Null or blank value: %s", value), null);
 			}
 		}else {
 			//logging
 			log(Level.ERROR, stepDescription, "Alert not present");
-			//reporting
-
+			//reporting?
+			
 		}
 		return false;
 	}
@@ -1147,14 +1147,14 @@ public class DriverControllerV4 {
 				alert.accept();
 				//logging
 				log(Level.INFO, stepDescription, "Successfully accepted alert");
-				//reporting
-
+				//reporting?
+				
 				return true;
 			}catch(Exception e) {
 				//logging
 				log(Level.ERROR, stepDescription, "Exception while accepting alert", e);
 				//reporting
-
+				
 			}
 		}else {
 			//logging
@@ -1251,7 +1251,7 @@ public class DriverControllerV4 {
 			}
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank name of id: {}", nameOrId);
+			log(Level.ERROR, stepDescription, "Null or blank name of id: {}", nameOrId);
 			//reporting
 
 		}
@@ -1270,7 +1270,7 @@ public class DriverControllerV4 {
 			return performSwitchToIFrameOperation(stepDescription, webElement);
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
 			//reporting
 
 		}
@@ -1419,15 +1419,16 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "No element present by locator string: {}", locatorString);
 				//reporting
 				if(generateReport) {
-
+					Exception e = new NoSuchElementException(String.format("No element present by locator string: %s", locatorString));
+					reportStepFailure(stepDescription, e.getMessage(), e, getScreenshot());
 				}
 			}
 		}else {
 			//logging
-			log(Level.ERROR, null, "Blank locator string: {}", locatorString, duration);
+			log(Level.ERROR, null, "Null or blank locator string: {}", locatorString, duration);
 			//reporting
 			if(generateReport) {
-
+				reportStepFailure(stepDescription, "Null or blank locator string", null);
 			}
 		}
 		return null;
@@ -1475,7 +1476,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for presence of element", e);
 				//reporting
 				if(generateReport) {
-
+					reportStepFailure(stepDescription, "Exception occurred while waiting for presence of element", e, getScreenshot());
 				}
 			}
 		}else {
@@ -1483,7 +1484,7 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null locator: {}", by, duration);
 			//reporting
 			if(generateReport) {
-
+				reportStepFailure(stepDescription, "Null locator", null);
 			}
 		}
 		return null;
@@ -1539,15 +1540,16 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "No visible element found by locator string: {}", locatorString);
 				//reporting
 				if(generateReport) {
-
+					Exception e = new NoSuchElementException(String.format("No visible element found by locator string: %s", locatorString));
+					reportStepFailure(stepDescription, e.getMessage(), e, getScreenshot());
 				}
 			}
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
 			//reporting
 			if(generateReport) {
-
+				reportStepFailure(stepDescription, "Null or blank locator string", null);
 			}
 		}
 		return null;
@@ -1598,7 +1600,7 @@ public class DriverControllerV4 {
 				log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
 				//reporting
 				if(generateReport) {
-
+					reportStepFailure(stepDescription, "Exception occurred while waiting for visibility of element", e, getScreenshot());
 				}
 			}
 		}else {
@@ -1606,7 +1608,7 @@ public class DriverControllerV4 {
 			log(Level.ERROR, stepDescription, "Null locator: {}", by);
 			//reporting
 			if(generateReport) {
-
+				reportStepFailure(stepDescription, "Null locator", null);
 			}
 		}
 		return null;
@@ -1721,7 +1723,7 @@ public class DriverControllerV4 {
 			return locatorOptional.isPresent();
 		}else {
 			//logging
-			log(Level.ERROR, stepDescription, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
 			//reporting
 			if(generateReport) {
 
@@ -2289,7 +2291,7 @@ public class DriverControllerV4 {
 			}
 		}else {
 			//logging
-			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, null, "Null or blank locator string: {}", locatorString);
 			//reporting
 
 		}
@@ -2362,7 +2364,7 @@ public class DriverControllerV4 {
 			}
 		}else {
 			//logging
-			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, null, "Null or blank locator string: {}", locatorString);
 			//reporting
 
 		}
@@ -2595,7 +2597,7 @@ public class DriverControllerV4 {
 			return locators;
 		}else {
 			//logging
-			log(Level.ERROR, null, "Blank locator string: {}", locatorString);
+			log(Level.ERROR, null, "Null or blank locator string: {}", locatorString);
 			//reporting
 
 		}
@@ -2671,7 +2673,7 @@ public class DriverControllerV4 {
 			}
 		}else {
 			//logging
-			log(Level.ERROR, null, "Blank locator pair string: {}", locatorPairString);
+			log(Level.ERROR, null, "Null or blank locator pair string: {}", locatorPairString);
 			//reporting
 
 		}
@@ -2692,11 +2694,11 @@ public class DriverControllerV4 {
 
 	}
 
-	public void reportStepFailure(String stepDescription, String details, byte[] screenshot) {
+	private void reportStepFailure(String stepDescription, String details, byte[] screenshot) {
 
 	}
 
-	public void reportStepFailure(String stepDescription, String details, Throwable exception, byte[] screenshot) {
+	private void reportStepFailure(String stepDescription, String details, Throwable exception, byte[] screenshot) {
 
 	}
 

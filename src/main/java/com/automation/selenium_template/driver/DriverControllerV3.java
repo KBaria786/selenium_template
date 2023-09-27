@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -1268,7 +1267,6 @@ public class DriverControllerV3 {
 				//logging
 				log(Level.ERROR, stepDescription, "No invisible element found by locator string: {}", locatorString);
 				//reporting
-				String message = String.format("No invisible element found by locator string: %s", locatorString);
 
 			}
 			return locatorOptional.isPresent();
