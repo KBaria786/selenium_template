@@ -103,7 +103,7 @@
                 <dependency>
                     <groupId>org.aspectj</groupId>
                     <artifactId>aspectjweaver</artifactId>
-                    <version>1.8.10</version>
+                    <version>${aspectj.version}</version>
                 </dependency>
             </dependencies>
         </plugin>

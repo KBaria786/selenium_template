@@ -5,7 +5,7 @@
     <classes>
       <class name="com.automation.selenium_template.AllureTests">
         <methods>
-          <include name="sampleTest"/>
+          <include name="dc"/>
         </methods>
       </class> <!-- com.automation.selenium_template.AllureTests -->
     </classes>

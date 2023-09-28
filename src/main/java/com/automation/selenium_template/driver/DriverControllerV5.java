@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.automation.selenium_template.reports.ReportUtil;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -21,10 +23,10 @@ import org.slf4j.event.Level;
 public class DriverControllerV5 {
     private static final Logger logger = LoggerFactory.getLogger(DriverController.class);
     private WebDriver webDriver;
-    private Duration defaultExplicitWaitDuration;
-    private boolean enableReporting;
-    private boolean enableSuccessScreenshots;
-    private boolean enableFailureScreenshots;
+    private Duration defaultExplicitWaitDuration = Duration.ofSeconds(10);
+    private boolean enableReporting = true;
+    private boolean enableSuccessScreenshots = false;
+    private boolean enableFailureScreenshots = true;
 
     public DriverControllerV5(WebDriver webDriver) {
         super();
@@ -63,13 +65,13 @@ public class DriverControllerV5 {
                 //logging
                 log(Level.ERROR, stepDescription, String.format("Exception occurred while loading url: %s", url), e);
                 //reporting
-                reportStepFailure(stepDescription, String.format("Exception occurred while loading url: %s", url), e, null);
+                reportStepFailure(stepDescription, String.format("Exception occurred while loading url: %s", url), e, getScreenshot());
             }
         }else {
             //logging
             log(Level.ERROR, stepDescription, "Null or blank url: {}", url);
             //reporting
-            reportStepFailure(stepDescription, "Null or blank url", null);
+            reportStepFailure(stepDescription, "Null or blank url", getScreenshot());
         }
         return false;
     }
@@ -85,7 +87,7 @@ public class DriverControllerV5 {
             //logging
             log(Level.INFO, stepDescription, "Successfully closed current window");
             //reporting
-            reportStepSuccess(stepDescription, "Successfully closed current window", null);
+            reportStepSuccess(stepDescription, "Successfully closed current window", getScreenshot());
         }catch (Exception e) {
             //logging
             log(Level.ERROR, stepDescription, "Exception occurred while closing current window", e);
@@ -438,7 +440,7 @@ public class DriverControllerV5 {
                 //logging
                 log(Level.INFO, stepDescription, "Successfully sent keys: {} to web element: {}", value, webElement);
                 //reporting
-                reportStepSuccess(stepDescription, "Successfully sent keys: {} to web element", null);
+                reportStepSuccess(stepDescription, String.format("Successfully sent keys: %s to web element", value), null);
                 return true;
             }catch (Exception e) {
                 //logging
@@ -2823,7 +2825,7 @@ public class DriverControllerV5 {
      */
     private void reportStepSuccess(String stepDescription, String details, byte[] screenshot) {
         if(enableReporting) {
-            if(enableSuccessScreenshots) {
+            if(enableSuccessScreenshots && ArrayUtils.isNotEmpty(screenshot)) {
                 ReportUtil.reportStepSuccess(stepDescription, details, screenshot);
             }else {
                 ReportUtil.reportStepSuccess(stepDescription, details);
@@ -2839,7 +2841,7 @@ public class DriverControllerV5 {
      */
     private void reportStepFailure(String stepDescription, String details, byte[] screenshot) {
         if(enableReporting) {
-            if(enableFailureScreenshots) {
+            if(enableFailureScreenshots && ArrayUtils.isNotEmpty(screenshot)) {
                 ReportUtil.reportStepFailure(stepDescription, details, screenshot);
             }else {
                 ReportUtil.reportStepFailure(stepDescription, details);
@@ -2856,7 +2858,7 @@ public class DriverControllerV5 {
      */
     private void reportStepFailure(String stepDescription, String details, Throwable exception, byte[] screenshot) {
         if(enableReporting) {
-            if(enableFailureScreenshots) {
+            if(enableFailureScreenshots && ArrayUtils.isNotEmpty(screenshot)) {
                 ReportUtil.reportStepFailure(stepDescription, details, exception, screenshot);
             }else {
                 ReportUtil.reportStepFailure(stepDescription, details, exception);

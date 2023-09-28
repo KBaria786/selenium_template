@@ -2,19 +2,29 @@
 <testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2023-09-27T11:21:06 IST" name="Default suite" finished-at="2023-09-27T11:21:06 IST" duration-ms="252">
+  <suite started-at="2023-09-28T13:36:02 IST" name="Default suite" finished-at="2023-09-28T13:36:18 IST" duration-ms="16549">
     <groups>
     </groups>
-    <test started-at="2023-09-27T11:21:06 IST" name="Default test" finished-at="2023-09-27T11:21:06 IST" duration-ms="252">
+    <test started-at="2023-09-28T13:36:02 IST" name="Default test" finished-at="2023-09-28T13:36:18 IST" duration-ms="16549">
       <class name="com.automation.selenium_template.AllureTests">
-        <test-method signature="sampleTest()[pri:0, instance:com.automation.selenium_template.AllureTests@16a9a4f1]" started-at="2023-09-27T11:21:06 IST" name="sampleTest" description="sample test" finished-at="2023-09-27T11:21:06 IST" duration-ms="101" status="FAIL">
-          <exception class="java.lang.RuntimeException">
+        <test-method signature="dc()[pri:0, instance:com.automation.selenium_template.AllureTests@2e380628]" started-at="2023-09-28T13:36:02 IST" name="dc" finished-at="2023-09-28T13:36:18 IST" duration-ms="16403" status="FAIL">
+          <exception class="java.lang.NullPointerException">
             <message>
-              <![CDATA[Some exception]]>
+              <![CDATA[Cannot throw exception because the return value of "java.lang.Throwable.getCause()" is null]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.RuntimeException: Some exception
-at com.automation.selenium_template.AllureTests.sampleTest(AllureTests.java:14)
+              <![CDATA[java.lang.NullPointerException: Cannot throw exception because the return value of "java.lang.Throwable.getCause()" is null
+at com.automation.selenium_template.reports.AllureReportingProvider.lambda$2(AllureReportingProvider.java:50)
+at io.qameta.allure.Allure.lambda$step$1(Allure.java:127)
+at io.qameta.allure.Allure.step(Allure.java:181)
+at io.qameta.allure.Allure.step(Allure.java:125)
+at com.automation.selenium_template.reports.AllureReportingProvider.reportStepFailure(AllureReportingProvider.java:48)
+at com.automation.selenium_template.reports.ReportUtil.reportStepFailure(ReportUtil.java:43)
+at com.automation.selenium_template.driver.DriverControllerV5.reportStepFailure(DriverControllerV5.java:2862)
+at com.automation.selenium_template.driver.DriverControllerV5.waitForVisibilityOfElement(DriverControllerV5.java:1603)
+at com.automation.selenium_template.driver.DriverControllerV5.waitForVisibilityOfElement(DriverControllerV5.java:1580)
+at com.automation.selenium_template.driver.DriverControllerV5.sendKeys(DriverControllerV5.java:398)
+at com.automation.selenium_template.AllureTests.dc(AllureTests.java:61)
 at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
@@ -43,10 +53,10 @@ at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 ]]>
             </full-stacktrace>
-          </exception> <!-- java.lang.RuntimeException -->
+          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- sampleTest -->
+        </test-method> <!-- dc -->
       </class> <!-- com.automation.selenium_template.AllureTests -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->

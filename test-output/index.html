@@ -50,7 +50,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Default_suite" class="navigator-link ">
-                    <span>C:\Users\10692688\AppData\Local\Temp\testng-eclipse-182736540\testng-customsuite.xml</span>
+                    <span>C:\Users\10692688\AppData\Local\Temp\testng-eclipse--1404767080\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -103,7 +103,7 @@
                     <div class="method-list-content failed suite-Default_suite">
                       <span>
                         <img src="failed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Default_suite" title="com.automation.selenium_template.AllureTests" class="method navigator-link" hash-for-method="sampleTest">sampleTest</a> <!-- method navigator-link -->
+                        <a href="#" panel-name="suite-Default_suite" title="com.automation.selenium_template.AllureTests" class="method navigator-link" hash-for-method="dc">dc</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content failed suite-Default_suite -->
@@ -126,11 +126,21 @@
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="sampleTest">
-                  </a> <!-- sampleTest -->
-                  <span class="method-name">sampleTest</span>
-                  <div class="stack-trace">java.lang.RuntimeException: Some exception
-	at com.automation.selenium_template.AllureTests.sampleTest(AllureTests.java:14)
+                  <a name="dc">
+                  </a> <!-- dc -->
+                  <span class="method-name">dc</span>
+                  <div class="stack-trace">java.lang.NullPointerException: Cannot throw exception because the return value of &quot;java.lang.Throwable.getCause()&quot; is null
+	at com.automation.selenium_template.reports.AllureReportingProvider.lambda$2(AllureReportingProvider.java:50)
+	at io.qameta.allure.Allure.lambda$step$1(Allure.java:127)
+	at io.qameta.allure.Allure.step(Allure.java:181)
+	at io.qameta.allure.Allure.step(Allure.java:125)
+	at com.automation.selenium_template.reports.AllureReportingProvider.reportStepFailure(AllureReportingProvider.java:48)
+	at com.automation.selenium_template.reports.ReportUtil.reportStepFailure(ReportUtil.java:43)
+	at com.automation.selenium_template.driver.DriverControllerV5.reportStepFailure(DriverControllerV5.java:2862)
+	at com.automation.selenium_template.driver.DriverControllerV5.waitForVisibilityOfElement(DriverControllerV5.java:1603)
+	at com.automation.selenium_template.driver.DriverControllerV5.waitForVisibilityOfElement(DriverControllerV5.java:1580)
+	at com.automation.selenium_template.driver.DriverControllerV5.sendKeys(DriverControllerV5.java:398)
+	at com.automation.selenium_template.AllureTests.dc(AllureTests.java:61)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
@@ -159,8 +169,6 @@
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 
 </div> <!-- stack-trace -->
-                  <em>
-(sample test)                  </em>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -168,7 +176,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\10692688\AppData\Local\Temp\testng-eclipse-182736540\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\10692688\AppData\Local\Temp\testng-eclipse--1404767080\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -179,7 +187,7 @@
     &lt;classes&gt;
       &lt;class name=&quot;com.automation.selenium_template.AllureTests&quot;&gt;
         &lt;methods&gt;
-          &lt;include name=&quot;sampleTest&quot;/&gt;
+          &lt;include name=&quot;dc&quot;/&gt;
         &lt;/methods&gt;
       &lt;/class&gt; &lt;!-- com.automation.selenium_template.AllureTests --&gt;
     &lt;/classes&gt;
@@ -223,14 +231,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'sampleTest')
+data.setCell(0, 1, 'dc')
 data.setCell(0, 2, 'com.automation.selenium_template.AllureTests')
-data.setCell(0, 3, 101);
+data.setCell(0, 3, 16403);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 101 ms</span>
+              <span class="suite-total-time">Total running time: 16 seconds</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -245,9 +253,16 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">0 ignored methods</span>
+            <span class="header-content">1 ignored method</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
+            <div class="ignored-class-div">
+              <span class="ignored-class-name">com.automation.selenium_template.AllureTests</span>
+              <div class="ignored-methods-div">
+                <span class="ignored-method-name">sampleTest</span>
+                <br/>
+              </div> <!-- ignored-methods-div -->
+            </div> <!-- ignored-class-div -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
         <div panel-name="chronological-Default_suite" class="panel">
@@ -260,7 +275,7 @@ return data;
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">sampleTest</span>
+                <span class="method-name">dc</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
