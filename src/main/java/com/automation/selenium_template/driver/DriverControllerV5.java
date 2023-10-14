@@ -117,14 +117,14 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element found using the given 'locatorString' string which is visible and within viewport.
+     * Click on the web element found using the given 'locatorString' string which is clickable.
      * @param stepDescription short step description
      * @param locatorString the string to find the element with
      * @return true if operation is successful otherwise false
      */
     public boolean click(String stepDescription, String locatorString) {
         if(StringUtils.isNotBlank(locatorString)) {
-            WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
+            WebElement webElement = waitForClickabilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
             return performClickOperation(stepDescription, webElement);
         }else {
             //logging
@@ -136,14 +136,14 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element found using the given 'by' locator which is visible and within the viewport.
+     * Click on the web element found using the given 'by' locator which is clickable.
      * @param stepDescription short step description
      * @param by the locator to find the web element with
      * @return true if operation is successful otherwise false
      */
     public boolean click(String stepDescription, By by) {
         if(by != null) {
-            WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
+            WebElement webElement = waitForClickabilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
             return performClickOperation(stepDescription, webElement);
         }else {
             //logging
@@ -155,14 +155,14 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element that is visible and within the view port.
+     * Click on the web element which is clickable.
      * @param stepDescription short step description
      * @param webElement the web element to click on
      * @return true if operation is successful otherwise false
      */
     public boolean click(String stepDescription, WebElement webElement) {
         if(webElement != null) {
-            webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
+            webElement = waitForClickabilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
             return performClickOperation(stepDescription, webElement);
         }else {
             //logging
@@ -174,7 +174,7 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element that is visible and within the view port.
+     * Click on the web element which is clickable.
      * @param stepDescription short step description
      * @param webElement the web element to click on
      * @return true if operation is successful otherwise false
@@ -199,14 +199,14 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element using {@link Actions} found using the given 'locatorString' string which is visible and within the viewport.
+     * Click on the web element using {@link Actions} found using the given 'locatorString' string which is clickable.
      * @param stepDescription short step description
      * @param locatorString the string to find the element with
      * @return true if operation is successful otherwise false
      */
     public boolean clickUsingActions(String stepDescription, String locatorString) {
         if(StringUtils.isNotBlank(locatorString)) {
-            WebElement webElement = waitForVisibilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
+            WebElement webElement = waitForClickabilityOfElement(stepDescription, locatorString, defaultExplicitWaitDuration);
             return performClickUsingActionsOperation(stepDescription, webElement);
         }else {
             //logging
@@ -218,14 +218,14 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element using {@link Actions} found using the given 'by' locator which is visible and within the viewport.
+     * Click on the web element using {@link Actions} found using the given 'by' locator which is clickable.
      * @param stepDescription short step description
      * @param by the locator to find the web element with
      * @return true if operation is successful otherwise false
      */
     public boolean clickUsingActions(String stepDescription, By by) {
         if(by != null) {
-            WebElement webElement = waitForVisibilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
+            WebElement webElement = waitForClickabilityOfElement(stepDescription, by, defaultExplicitWaitDuration);
             return performClickUsingActionsOperation(stepDescription, webElement);
         }else {
             //logging
@@ -237,14 +237,14 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element using {@link Actions} which is visible and within the viewport.
+     * Click on the web element using {@link Actions} which is clickable.
      * @param stepDescription short step description
      * @param webElement the web element to click on
      * @return true if operation is successful otherwise false
      */
     public boolean clickUsingActions(String stepDescription, WebElement webElement) {
         if(webElement != null) {
-            webElement = waitForVisibilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
+            webElement = waitForClickabilityOfElement(stepDescription, webElement, defaultExplicitWaitDuration);
             return performClickUsingActionsOperation(stepDescription, webElement);
         }else {
             //logging
@@ -256,7 +256,7 @@ public class DriverControllerV5 {
     }
 
     /**
-     * Click on the web element using {@link Actions} which is visible and within the viewport.
+     * Click on the web element using {@link Actions} which is clickable.
      * @param stepDescription short step description
      * @param webElement the web element to click on
      * @return true if operation is successful otherwise false
@@ -1654,10 +1654,10 @@ public class DriverControllerV5 {
                 return wait.until(ExpectedConditions.visibilityOf(webElement));
             }catch(Exception e) {
                 //logging
-                log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
+                log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
                 //reporting
                 if(generateReport) {
-                    reportStepFailure(stepDescription, "Exception occurred while waiting for invisibility of element", e, getScreenshot());
+                    reportStepFailure(stepDescription, "Exception occurred while waiting for visibility of element", e, getScreenshot());
                 }
             }
         }else {
@@ -1826,10 +1826,10 @@ public class DriverControllerV5 {
                 return wait.until(ExpectedConditions.invisibilityOf(webElement));
             }catch(Exception e) {
                 //logging
-                log(Level.ERROR, stepDescription, "Exception occurred while waiting for visibility of element", e);
+                log(Level.ERROR, stepDescription, "Exception occurred while waiting for invisibility of element", e);
                 //reporting
                 if(generateReport) {
-                    reportStepFailure(stepDescription, "Exception occurred while waiting for visibility of element", e, getScreenshot());
+                    reportStepFailure(stepDescription, "Exception occurred while waiting for invisibility of element", e, getScreenshot());
                 }
             }
         }else {
@@ -1841,6 +1841,180 @@ public class DriverControllerV5 {
             }
         }
         return false;
+    }
+
+    // clickability
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * @param stepDescription short step description
+     * @param locatorString the string to find the element with
+     * @param duration the duration to wait for
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    public WebElement isElementClickable(String stepDescription, String locatorString, Duration duration) {
+        return waitForClickabilityOfElement(stepDescription, locatorString, duration, false);
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * <p>This method generates report if the element is not clickable on the DOM.</p>
+     * @param stepDescription short step description
+     * @param locatorString the string to find the element with
+     * @param duration the duration to wait for
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    public WebElement waitForClickabilityOfElement(String stepDescription, String locatorString, Duration duration) {
+        return waitForClickabilityOfElement(stepDescription, locatorString, duration, true);
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * <p>This method generates report if the element is not clickable on the DOM based on the value of 'generateReport'</p>
+     * @param stepDescription short step description
+     * @param locatorString the string to find the element with
+     * @param duration the duration to wait for
+     * @param generateReport boolean value to determine if reports will be generated or not
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    private WebElement waitForClickabilityOfElement(String stepDescription, String locatorString, Duration duration, boolean generateReport) {
+        if(StringUtils.isNotBlank(locatorString)) {
+            Optional<WebElement> webElementOptional = getLocators(locatorString).stream()
+                    .map(locator -> waitForClickabilityOfElement(stepDescription, locator, duration != null ? duration : defaultExplicitWaitDuration, false))
+                    .filter(webElement -> webElement != null)
+                    .findFirst();
+            if(webElementOptional.isPresent()) {
+                return webElementOptional.get();
+            }else {
+                //logging
+                log(Level.ERROR, stepDescription, "No clickable element found by locator string: {}", locatorString);
+                //reporting
+                if(generateReport) {
+                    Exception e = new NoSuchElementException(String.format("No clickable element found by locator string: %s", locatorString));
+                    reportStepFailure(stepDescription, e.getMessage(), e, getScreenshot());
+                }
+            }
+        }else {
+            //logging
+            log(Level.ERROR, stepDescription, "Null or blank locator string: {}", locatorString);
+            //reporting
+            if(generateReport) {
+                reportStepFailure(stepDescription, "Null or blank locator string", null);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * @param stepDescription short step description
+     * @param by the locator to find the element with
+     * @param duration the duration to wait for
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    public WebElement isElementClickable(String stepDescription, By by, Duration duration) {
+        return waitForClickabilityOfElement(stepDescription, by, duration, false);
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * <p>This method generates report if the element is not clickable on the DOM.</p>
+     * @param stepDescription short step description
+     * @param by the locator to find the element with
+     * @param duration the duration to wait for
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    public WebElement waitForClickabilityOfElement(String stepDescription, By by, Duration duration) {
+        return waitForClickabilityOfElement(stepDescription, by, duration, true);
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * <p>This method generates report if the element is not clickable on the DOM based on the value of 'generateReport'</p>
+     * @param stepDescription short step description
+     * @param by the locator to find the element with
+     * @param duration the duration to wait for
+     * @param generateReport boolean value to determine if reports will be generated or not
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    private WebElement waitForClickabilityOfElement(String stepDescription, By by, Duration duration, boolean generateReport) {
+        if(by != null) {
+            try {
+                WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
+                return wait.until(ExpectedConditions.elementToBeClickable(by));
+            }catch(Exception e) {
+                //logging
+                log(Level.ERROR, stepDescription, "Exception occurred while waiting for clickability of element", e);
+                //reporting
+                if(generateReport) {
+                    reportStepFailure(stepDescription, "Exception occurred while waiting for clickability of element", e, getScreenshot());
+                }
+            }
+        }else {
+            //logging
+            log(Level.ERROR, stepDescription, "Null locator: {}", by);
+            //reporting
+            if(generateReport) {
+                reportStepFailure(stepDescription, "Null locator", null);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * @param stepDescription short step description
+     * @param webElement the web element to check clickability of
+     * @param duration the duration to wait for
+     * @return the WebElement once it is located and clickable (visible and enabled)
+     */
+    public WebElement isElementClickable(String stepDescription, WebElement webElement, Duration duration) {
+        return waitForClickabilityOfElement(stepDescription, webElement, duration, false);
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * <p>This method generates report if the element is not clickable on the DOM.</p>
+     * @param stepDescription short step description
+     * @param webElement the web element to check clickability of
+     * @param duration the duration to wait for
+     * @return the (same) WebElement once it is clickable (visible and enabled)
+     */
+    public WebElement waitForClickabilityOfElement(String stepDescription, WebElement webElement, Duration duration) {
+        return waitForClickabilityOfElement(stepDescription, webElement, duration, true);
+    }
+
+    /**
+     * An expectation for checking an element is visible and enabled such that you can click it.
+     * <p>This method generates report if the element is not clickable on the DOM based on the value of 'generateReport'</p>
+     * @param stepDescription short step description
+     * @param webElement the web element to check clickability of
+     * @param duration the duration to wait for
+     * @param generateReport boolean value to determine if reports will be generated or not
+     * @return the (same) WebElement once it is clickable (visible and enabled)
+     */
+    private WebElement waitForClickabilityOfElement(String stepDescription, WebElement webElement, Duration duration, boolean generateReport) {
+        if(webElement != null) {
+            try {
+                WebDriverWait wait = new WebDriverWait(webDriver, duration != null ? duration : defaultExplicitWaitDuration);
+                return wait.until(ExpectedConditions.elementToBeClickable(webElement));
+            }catch(Exception e) {
+                //logging
+                log(Level.ERROR, stepDescription, "Exception occurred while waiting for clickability of element", e);
+                //reporting
+                if(generateReport) {
+                    reportStepFailure(stepDescription, "Exception occurred while waiting for clickability of element", e, getScreenshot());
+                }
+            }
+        }else {
+            //logging
+            log(Level.ERROR, stepDescription, "Null web element: {}", webElement);
+            //reporting
+            if(generateReport) {
+                reportStepFailure(stepDescription, "Null web element", null);
+            }
+        }
+        return null;
     }
 
     // attribute to be
